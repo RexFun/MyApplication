@@ -1,1 +1,1 @@
-include ':app', ':paperdiy'
+include ':app', ':paperdiy'//, ':Librarys:DsWorkAndroidLib-core'

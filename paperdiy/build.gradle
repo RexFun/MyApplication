@@ -29,6 +29,8 @@ dependencies {
     compile('com.mikepenz:materialdrawer:4.5.1@aar') {
         transitive = true
     }
-    compile project(':Librarys:DsWorkAndroidLib-core')
+    compile 'com.rexfun.androidlibraryhttp:httplib:1.0.0'
+    compile 'com.rexfun.androidlibrarytool:toollib:1.0.0'
+    compile 'com.rexfun.androidlibrarycontroller:controllerlib:1.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
 }

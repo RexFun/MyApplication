@@ -3,12 +3,12 @@ package com.rex.paperdiy.controller;
 import android.content.Context;
 
 import com.rex.paperdiy.R;
+import com.rexfun.androidlibrarycontroller.BaseWebController;
+import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dswork.android.lib.core.controller.BaseWebController;
-import dswork.android.lib.core.util.webutil.HttpResultObj;
 
 /**
  * Created by mac373 on 15/11/25.
