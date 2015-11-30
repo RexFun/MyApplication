@@ -11,6 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/greendaodemo" />
+            <option value="$PROJECT_DIR$/greendaogen" />
             <option value="$PROJECT_DIR$/paperdiy" />
           </set>
         </option>

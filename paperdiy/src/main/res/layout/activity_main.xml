@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/nav_swipe_refresh"
         android:layout_width="match_parent"
