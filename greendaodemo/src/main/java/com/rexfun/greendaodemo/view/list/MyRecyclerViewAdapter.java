@@ -15,32 +15,28 @@ import com.rexfun.greendaodemo.R;
 /**
  * Created by mac373 on 15/11/30.
  */
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyTextViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
     private Cursor mCursor;
-    private String[] mTitles;
 
     public MyRecyclerViewAdapter(Context context, Cursor cursor) {
-        mTitles = context.getResources().getStringArray(R.array.titles);
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mCursor = cursor;
-
     }
 
     @Override
-    public MyTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyTextViewHolder(mLayoutInflater.inflate(R.layout.recycler_view_item, parent, false));
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(mLayoutInflater.inflate(R.layout.recycler_view_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(MyTextViewHolder holder, int position) {
-        System.out.println("数据量：" + mCursor.getCount());
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         if (mCursor.getCount() > 0) {
             mCursor.moveToPosition(position);
-            String _tcCode = mCursor.getString(mCursor.getColumnIndex("tc_code"));
-            String _tcPassword = mCursor.getString(mCursor.getColumnIndex("tc_password"));
+            String _tcCode = mCursor.getString(mCursor.getColumnIndex("TC_CODE"));
+            String _tcPassword = mCursor.getString(mCursor.getColumnIndex("TC_PASSWORD"));
             holder.mTextViewUserCode.setText(_tcCode);
             holder.mTextViewUserPassword.setText(_tcPassword);
         }
@@ -48,13 +44,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public int getItemCount() {
-        return mTitles == null ? 0 : mTitles.length;
+        return mCursor.getCount();
     }
 
-    public static class MyTextViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         @InjectUtil.InjectView(id=R.id.user_code) TextView mTextViewUserCode;
         @InjectUtil.InjectView(id=R.id.user_password) TextView mTextViewUserPassword;
-        MyTextViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);
             view.setOnClickListener(new View.OnClickListener() {
