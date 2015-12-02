@@ -1,0 +1,18 @@
+<resources>
+    <string-array name="import_data">
+        <item>insert into user (tc_code, tc_password) values (\'a@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'b@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'c@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'d@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'e@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'f@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'g@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'h@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'i@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'j@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'k@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'l@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'m@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password) values (\'n@qq.com\', \'888888\');</item>
+    </string-array>
+</resources>
