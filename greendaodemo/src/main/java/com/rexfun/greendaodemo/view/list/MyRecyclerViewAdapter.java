@@ -37,8 +37,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mCursor.moveToPosition(position);
             String _tcCode = mCursor.getString(mCursor.getColumnIndex("TC_CODE"));
             String _tcPassword = mCursor.getString(mCursor.getColumnIndex("TC_PASSWORD"));
+            String _tcAge = mCursor.getString(mCursor.getColumnIndex("TC_AGE"));
             holder.mTextViewUserCode.setText(_tcCode);
             holder.mTextViewUserPassword.setText(_tcPassword);
+            holder.mTextViewUserAge.setText(_tcAge);
         }
     }
 
@@ -50,6 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         @InjectUtil.InjectView(id=R.id.user_code) TextView mTextViewUserCode;
         @InjectUtil.InjectView(id=R.id.user_password) TextView mTextViewUserPassword;
+        @InjectUtil.InjectView(id=R.id.user_age) TextView mTextViewUserAge;
         MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);

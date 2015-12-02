@@ -1,6 +1,6 @@
 <resources>
     <string-array name="import_data">
-        <item>insert into user (tc_code, tc_password) values (\'a@qq.com\', \'888888\');</item>
+        <item>insert into user (tc_code, tc_password, tc_age) values (\'a@qq.com\', \'888888\', 18);</item>
         <item>insert into user (tc_code, tc_password) values (\'b@qq.com\', \'888888\');</item>
         <item>insert into user (tc_code, tc_password) values (\'c@qq.com\', \'888888\');</item>
         <item>insert into user (tc_code, tc_password) values (\'d@qq.com\', \'888888\');</item>

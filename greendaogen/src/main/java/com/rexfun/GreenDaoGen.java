@@ -16,6 +16,7 @@ public class GreenDaoGen {
         userBean.addIdProperty();
         userBean.addStringProperty("tc_code");
         userBean.addStringProperty("tc_password");
+        userBean.addStringProperty("tc_age");
 
         //生成DAO
         new DaoGenerator().generateAll(schema, "greendaodemo/src/main/java-gen");

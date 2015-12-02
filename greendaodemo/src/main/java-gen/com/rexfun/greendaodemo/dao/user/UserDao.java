@@ -26,6 +26,7 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Tc_code = new Property(1, String.class, "tc_code", false, "TC_CODE");
         public final static Property Tc_password = new Property(2, String.class, "tc_password", false, "TC_PASSWORD");
+        public final static Property Tc_age = new Property(3, String.class, "tc_age", false, "TC_AGE");
     };
 
 
@@ -43,7 +44,8 @@ public class UserDao extends AbstractDao<User, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TC_CODE\" TEXT," + // 1: tc_code
-                "\"TC_PASSWORD\" TEXT);"); // 2: tc_password
+                "\"TC_PASSWORD\" TEXT," + // 2: tc_password
+                "\"TC_AGE\" TEXT);"); // 3: tc_age
     }
 
     /** Drops the underlying database table. */
@@ -71,6 +73,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (tc_password != null) {
             stmt.bindString(3, tc_password);
         }
+ 
+        String tc_age = entity.getTc_age();
+        if (tc_age != null) {
+            stmt.bindString(4, tc_age);
+        }
     }
 
     /** @inheritdoc */
@@ -85,7 +92,8 @@ public class UserDao extends AbstractDao<User, Long> {
         User entity = new User( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // tc_code
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // tc_password
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // tc_password
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // tc_age
         );
         return entity;
     }
@@ -96,6 +104,7 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTc_code(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setTc_password(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTc_age(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     /** @inheritdoc */

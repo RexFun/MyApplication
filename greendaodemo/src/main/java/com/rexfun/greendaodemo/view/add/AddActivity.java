@@ -336,7 +336,7 @@ public class AddActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             }
 
             // TODO: register the new account here.
-            User u = new User(null, mEmail, mPassword);
+            User u = new User(null, mEmail, mPassword, null);
             DaoFactory.getUserDao(AddActivity.this).insert(u);
             return true;
         }

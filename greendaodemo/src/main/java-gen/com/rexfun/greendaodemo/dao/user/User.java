@@ -9,6 +9,7 @@ public class User {
     private Long id;
     private String tc_code;
     private String tc_password;
+    private String tc_age;
 
     public User() {
     }
@@ -17,10 +18,11 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String tc_code, String tc_password) {
+    public User(Long id, String tc_code, String tc_password, String tc_age) {
         this.id = id;
         this.tc_code = tc_code;
         this.tc_password = tc_password;
+        this.tc_age = tc_age;
     }
 
     public Long getId() {
@@ -45,6 +47,14 @@ public class User {
 
     public void setTc_password(String tc_password) {
         this.tc_password = tc_password;
+    }
+
+    public String getTc_age() {
+        return tc_age;
+    }
+
+    public void setTc_age(String tc_age) {
+        this.tc_age = tc_age;
     }
 
 }
