@@ -5,8 +5,11 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 
 import com.rexfun.greendaodemo.dao.DaoFactory;
