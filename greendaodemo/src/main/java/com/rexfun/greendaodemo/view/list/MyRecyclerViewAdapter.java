@@ -59,6 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.setSelected(true);
                     Log.d("NormalTextViewHolder", "onClick--> position = " + getPosition());
                 }
             });
