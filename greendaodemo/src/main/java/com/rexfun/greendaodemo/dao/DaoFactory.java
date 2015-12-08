@@ -28,6 +28,10 @@ public class DaoFactory {
         return getDevOpenHelper(ctx).getWritableDatabase();
     }
 
+    public static SQLiteDatabase getReadableDatabase(Context ctx) {
+        return getDevOpenHelper(ctx).getReadableDatabase();
+    }
+
     public static DaoMaster getDaoMaster(Context ctx) {
         if (mDaoMaster == null) {
             mDaoMaster = new DaoMaster(getWritableDatabase(ctx));
@@ -35,7 +39,7 @@ public class DaoFactory {
         return mDaoMaster;
     }
 
-    private static DaoSession getDaoSession(Context ctx) {
+    public static DaoSession getDaoSession(Context ctx) {
         if (mDaoSession == null) {
             mDaoSession = getDaoMaster(ctx).newSession();
         }

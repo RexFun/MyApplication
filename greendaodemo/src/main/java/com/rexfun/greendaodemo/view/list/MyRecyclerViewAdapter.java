@@ -1,7 +1,6 @@
 package com.rexfun.greendaodemo.view.list;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,18 +11,25 @@ import android.widget.TextView;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.greendaodemo.R;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by mac373 on 15/11/30.
  */
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+    private final Context ctx;
+    private final List<Map<String, String>> mList;
     private final LayoutInflater mLayoutInflater;
-    private final Context mContext;
-    private Cursor mCursor;
 
-    public MyRecyclerViewAdapter(Context context, Cursor cursor) {
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
-        mCursor = cursor;
+    public MyRecyclerViewAdapter(Context context, List list) {
+        this.ctx = context;
+        this.mList = list;
+        this.mLayoutInflater = LayoutInflater.from(this.ctx);
+    }
+
+    public void addListItem(List list) {
+        mList.addAll(list);
     }
 
     @Override
@@ -33,20 +39,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (mCursor.getCount() > 0) {
-            mCursor.moveToPosition(position);
-            String _tcCode = mCursor.getString(mCursor.getColumnIndex("TC_CODE"));
-            String _tcPassword = mCursor.getString(mCursor.getColumnIndex("TC_PASSWORD"));
-            String _tcAge = mCursor.getString(mCursor.getColumnIndex("TC_AGE"));
-            holder.mTextViewUserCode.setText(_tcCode);
-            holder.mTextViewUserPassword.setText(_tcPassword);
-            holder.mTextViewUserAge.setText(_tcAge);
+        System.out.println("数据量:"+mList.size());
+        if (mList.size() > 0) {
+            holder.mTextViewUserCode.setText(mList.get(position).get("TC_CODE"));
+            holder.mTextViewUserPassword.setText(mList.get(position).get("TC_PASSWORD"));
+            holder.mTextViewUserAge.setText(mList.get(position).get("TC_AGE") );
         }
     }
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return mList.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -59,7 +62,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.setSelected(true);
+//                    v.setSelected(true);
                     Log.d("NormalTextViewHolder", "onClick--> position = " + getPosition());
                 }
             });

@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibrarytool.InjectUtil.InjectView;
 import com.rexfun.greendaodemo.R;
-import com.rexfun.greendaodemo.dao.DaoFactory;
+import com.rexfun.greendaodemo.controller.UserController;
 import com.rexfun.greendaodemo.dao.user.User;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -40,6 +40,8 @@ public class AddActivity extends AppCompatActivity {
     @InjectView(id=R.id.toolbar) Toolbar mToolbar;
     @InjectView(id=R.id.login_form) View mLoginFormView;
     @InjectView(id=R.id.email_sign_in_button) Button mEmailSignInButton;
+
+    private UserController mUserController;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -67,6 +69,9 @@ public class AddActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
+
+        mUserController = new UserController(this);
+
         // Set up the login form.
         populateAutoComplete();
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -251,7 +256,7 @@ public class AddActivity extends AppCompatActivity {
 
             // TODO: register the new account here.
             User u = new User(null, mEmail, mPassword, null);
-            DaoFactory.getUserDao(AddActivity.this).insert(u);
+            mUserController.insert(u);
             return true;
         }
 

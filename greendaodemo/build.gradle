@@ -32,6 +32,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.rexfun.androidlibrarytool:toollib:1.0.0'
     compile 'de.greenrobot:greendao:2.0.0'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'cn.pedant.sweetalert:library:1.3'
+//    compile 'com.android.support:recyclerview-v7:23.1.1'
 }
