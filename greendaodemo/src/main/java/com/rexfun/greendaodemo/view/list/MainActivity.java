@@ -14,6 +14,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.rexfun.androidlibrarytool.InjectUtil;
@@ -31,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private int lastVisibleItem;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private float y_tmp1, y_tmp2;
+
+    private static final int PULL_UP = 0;
+    private static final int PULL_DOWN = 1;
+    private static int PULL_DIRECTION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,35 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        pullDownRefresh(0, 5);
     }
 
+    /**
+     * 判断是向左还是滑动方向
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event){
+        //获取当前坐标
+        float y = event.getY();
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                y_tmp1 = y;
+                break;
+            case MotionEvent.ACTION_UP:
+                y_tmp2 = y;
+                System.out.println("滑动参值 y1=" + y_tmp1 + "; y2=" + y_tmp2);
+                if(y_tmp1 != 0){
+                    if(y_tmp1 - y_tmp2 > 8){
+                        PULL_DIRECTION = PULL_UP;
+                        System.out.println("pull_up");
+                    }
+                    if(y_tmp2 - y_tmp1 > 8){
+                        PULL_DIRECTION = PULL_DOWN;
+                        System.out.println("pull_down");
+                    }
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -136,12 +172,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 //SCROLL_STATE_DRAGGING  和   SCROLL_STATE_IDLE 两种效果自己看着来
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mRecyclerView.getAdapter().getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mRecyclerView.getAdapter().getItemCount() && PULL_DIRECTION == PULL_UP) {
                     mSwipeRefreshLayout.setRefreshing(true);
                     pullUpRefresh(mRecyclerView.getAdapter().getItemCount(), 5);
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
