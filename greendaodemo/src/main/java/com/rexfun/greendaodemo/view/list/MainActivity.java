@@ -14,11 +14,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibrarytool.InjectUtil.InjectView;
+import com.rexfun.androidlibraryui.RexRecyclerView;
 import com.rexfun.greendaodemo.R;
 import com.rexfun.greendaodemo.view.add.AddActivity;
 import com.rexfun.greendaodemo.view.list.asynctask.PullRefreshTask;
@@ -26,18 +26,11 @@ import com.rexfun.greendaodemo.view.list.asynctask.PullRefreshTask;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     @InjectView(id=R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectView(id=R.id.recycler_view) RecyclerView mRecyclerView;
+    @InjectView(id=R.id.recycler_view) RexRecyclerView mRecyclerView;
     @InjectView(id=R.id.toolbar) Toolbar toolbar;
     @InjectView(id=R.id.fab) FloatingActionButton fab;
 
-    private int lastVisibleItem;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private float y_tmp1, y_tmp2;
-
-    private static final int PULL_UP = 0;
-    private static final int PULL_DOWN = 1;
-    private static int PULL_DIRECTION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,35 +85,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        pullDownRefresh(0, 5);
     }
 
-    /**
-     * 判断是向左还是滑动方向
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event){
-        //获取当前坐标
-        float y = event.getY();
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                y_tmp1 = y;
-                break;
-            case MotionEvent.ACTION_UP:
-                y_tmp2 = y;
-                System.out.println("滑动参值 y1=" + y_tmp1 + "; y2=" + y_tmp2);
-                if(y_tmp1 != 0){
-                    if(y_tmp1 - y_tmp2 > 8){
-                        PULL_DIRECTION = PULL_UP;
-                        System.out.println("pull_up");
-                    }
-                    if(y_tmp2 - y_tmp1 > 8){
-                        PULL_DIRECTION = PULL_DOWN;
-                        System.out.println("pull_down");
-                    }
-                }
-                break;
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -165,30 +129,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //设置布局
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
-
-        //设置上拉动作
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.setOnPullUpRefreshListener(new RexRecyclerView.OnPullUpRefreshListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                //SCROLL_STATE_DRAGGING  和   SCROLL_STATE_IDLE 两种效果自己看着来
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mRecyclerView.getAdapter().getItemCount() && PULL_DIRECTION == PULL_UP) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    pullUpRefresh(mRecyclerView.getAdapter().getItemCount(), 5);
-                }
-            }
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (mLayoutManager instanceof LinearLayoutManager) {
-                    lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-                } else if (mLayoutManager instanceof GridLayoutManager) {
-                    lastVisibleItem = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-                } else if (mLayoutManager instanceof StaggeredGridLayoutManager) {
-                    int[] lastPositions = new int[((StaggeredGridLayoutManager) mLayoutManager).getSpanCount()];
-                    ((StaggeredGridLayoutManager) mLayoutManager).findLastVisibleItemPositions(lastPositions);
-                    lastVisibleItem = findMax(lastPositions);
-                }
+            public void doRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                pullUpRefresh(mRecyclerView.getAdapter().getItemCount(), 5);
             }
         });
     }
@@ -198,15 +143,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
     private void pullUpRefresh(int start, int limit) {
         new PullRefreshTask(this, mSwipeRefreshLayout, mRecyclerView, "up").execute(start + "", limit + "");
-    }
-
-    private int findMax(int[] lastPositions) {
-        int max = lastPositions[0];
-        for (int value : lastPositions) {
-            if (value > max) {
-                max = value;
-            }
-        }
-        return max;
     }
 }
