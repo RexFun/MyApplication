@@ -2,13 +2,8 @@ package com.rexfun.greendaodemo.view.list.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 
 import com.rexfun.greendaodemo.controller.UserController;
@@ -55,10 +50,10 @@ public class PullRefreshTask extends AsyncTask<String, Integer, List> {
 
     @Override
     protected void onPostExecute(final List list) {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 mSwipeLayout.setRefreshing(false);
                 if ("down".equals(direction)) {
                     mRecyclerView.setAdapter(new MyRecyclerViewAdapter(ctx, list));
@@ -66,7 +61,7 @@ public class PullRefreshTask extends AsyncTask<String, Integer, List> {
                     ((MyRecyclerViewAdapter)mRecyclerView.getAdapter()).addListItem(list);
                     mRecyclerView.getAdapter().notifyDataSetChanged();
                 }
-            }
-        }, 500);
+//            }
+//        }, 500);
     }
 }

@@ -13,11 +13,11 @@ import java.util.Map;
 /**
  * Created by mac373 on 15/11/25.
  */
-public class NavDrawerDataController extends BaseWebController {
+public class MainController extends BaseWebController {
 
     private Context ctx;
 
-    public NavDrawerDataController(Context ctx) {
+    public MainController(Context ctx) {
         this.ctx = ctx;
     }
 
@@ -29,6 +29,15 @@ public class NavDrawerDataController extends BaseWebController {
     public HttpResultObj<String> getDataJson() {
         Map<String,String> m = new HashMap<String,String>();
         HttpResultObj<String> r = submitHttpAction("client/nav/getNavDataJson.action", String.class, m, 5000, 5000, "POST");
+        return r;
+    }
+
+    public HttpResultObj<String> getPaperModelListByPid(String pid, String start, String limit) {
+        Map<String,String> m = new HashMap<String,String>();
+        m.put("pid", pid);
+        m.put("rownum", start);
+        m.put("pagesize", limit);
+        HttpResultObj<String> r = submitHttpAction("client/papermodel/getByPid.action", String.class, m, 5000, 5000, "POST");
         return r;
     }
 }

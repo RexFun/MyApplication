@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.rex.paperdiy.controller.NavDrawerDataController;
+import com.rex.paperdiy.controller.MainController;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.List;
@@ -21,13 +21,13 @@ import java.util.Map;
 public class GetAsyncDrawerItemsTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
 
     private Context ctx;
-    private NavDrawerDataController controller;
+    private MainController controller;
     private Drawer drawer;
 
     public GetAsyncDrawerItemsTask(Context _ctx, Drawer _drawer) {
         this.ctx = _ctx;
         this.drawer = _drawer;
-        this.controller = new NavDrawerDataController(_ctx);
+        this.controller = new MainController(_ctx);
     }
 
     @Override

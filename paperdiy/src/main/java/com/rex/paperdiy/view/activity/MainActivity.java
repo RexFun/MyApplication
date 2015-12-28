@@ -3,13 +3,16 @@ package com.rex.paperdiy.view.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -21,20 +24,30 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.asynctask.GetAsyncDrawerItemsTask;
+import com.rex.paperdiy.view.asynctask.MainActivityPullRefreshTask;
+import com.rexfun.androidlibrarytool.InjectUtil;
+import com.rexfun.androidlibraryui.RexRecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    @InjectUtil.InjectView(id=R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectUtil.InjectView(id=R.id.recycler_view) RexRecyclerView mRecyclerView;
+    @InjectUtil.InjectView(id=R.id.toolbar) Toolbar mToolbar;
+    @InjectUtil.InjectView(id=R.id.fab) FloatingActionButton fab;
 
+    private RecyclerView.LayoutManager mLayoutManager;
     private AccountHeader mDrawHeader;
     private Drawer mDrawer;
-    private Toolbar mToolbar;
+    private int curNavId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InjectUtil.injectView(this);
         initToolbar();
+        initSwipeRefreshLayout();
+        initRecyclerView();
         initNavDrawer();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
     }
 
     @Override
@@ -65,23 +76,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRefresh() {
+        pullDownRefresh(curNavId,0, 5);
+    }
+
     private void initToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }
+
     private void initNavDrawer() {
         //drawer header
         mDrawHeader = new AccountHeaderBuilder()
@@ -109,16 +119,69 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Toast.makeText(getApplicationContext(), drawerItem.getIdentifier()+"", Toast.LENGTH_SHORT).show();
+                        curNavId = drawerItem.getIdentifier();
+                        Toast.makeText(getApplicationContext(), drawerItem.getIdentifier() + "", Toast.LENGTH_SHORT).show();
+                        pullDownRefresh(drawerItem.getIdentifier(), 0, 5);
                         return true;
                     }
                 })
                 .build();
         getAsyncDrawerItems();
         mDrawer.openDrawer();
+
+//        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("home");
+//        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName("item_setting");
+//        mDrawer = new DrawerBuilder()
+//                    .withActivity(this)
+//                    .withToolbar(mToolbar)
+//                    .addDrawerItems(
+//                            item1,
+//                            new DividerDrawerItem(),
+//                            item2,
+//                            new SecondaryDrawerItem().withName("item_setting")
+//                    )
+//                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+//                        @Override
+//                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+//                            // do something with the clicked item :D
+//                            return false;
+//                        }
+//                    })
+//                    .build();
+//        mDrawer.openDrawer();
+    }
+
+    private void initSwipeRefreshLayout() {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_red_light,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+    }
+
+    private void initRecyclerView() {
+        //设置布局
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
+        mRecyclerView.setOnPullUpRefreshListener(new RexRecyclerView.OnPullUpRefreshListener() {
+            @Override
+            public void doRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                pullUpRefresh(curNavId, mRecyclerView.getAdapter().getItemCount(), 5);
+            }
+        });
     }
 
     private void getAsyncDrawerItems() {
         new GetAsyncDrawerItemsTask(this, mDrawer).execute();
+    }
+
+    private void pullDownRefresh(int navId, int start, int limit) {
+        new MainActivityPullRefreshTask(this, mSwipeRefreshLayout, mRecyclerView).execute(navId + "", start + "", limit + "");
+    }
+
+    private void pullUpRefresh(int navId, int start, int limit) {
+        new MainActivityPullRefreshTask(this, mSwipeRefreshLayout, mRecyclerView, "up").execute(navId + "", start + "", limit + "");
     }
 }

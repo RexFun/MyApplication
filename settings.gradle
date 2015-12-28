@@ -1,1 +1,1 @@
-include ':app', ':paperdiy', ':greendaodemo', ':greendaogen'
+include ':app', ':paperdiy', ':greendaodemo', ':greendaogen', 'httplib'

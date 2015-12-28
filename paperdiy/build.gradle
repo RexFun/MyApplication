@@ -31,6 +31,8 @@ dependencies {
     }
     compile 'com.rexfun.androidlibraryhttp:httplib:1.0.0'
     compile 'com.rexfun.androidlibrarytool:toollib:1.0.0'
+    compile 'com.rexfun.androidlibraryui:uilib:1.0.2'
     compile 'com.rexfun.androidlibrarycontroller:controllerlib:1.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
+//    compile project (':httplib')
 }
