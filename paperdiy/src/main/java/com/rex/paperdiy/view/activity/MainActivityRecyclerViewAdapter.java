@@ -40,9 +40,7 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        System.out.println("数据量:"+mList.size());
         if (mList.size() > 0) {
-            Toast.makeText(ctx,mList.get(position).get("ID")+"-"+mList.get(position).get("NAME"),Toast.LENGTH_SHORT).show();
             holder.tvPaperModelId.setText(mList.get(position).get("ID"));
             holder.tvPaperModelName.setText(mList.get(position).get("NAME"));
         }

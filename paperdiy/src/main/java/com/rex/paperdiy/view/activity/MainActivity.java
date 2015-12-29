@@ -120,9 +120,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         curNavId = drawerItem.getIdentifier();
-                        Toast.makeText(getApplicationContext(), drawerItem.getIdentifier() + "", Toast.LENGTH_SHORT).show();
                         pullDownRefresh(drawerItem.getIdentifier(), 0, 5);
-                        return true;
+                        return false;
                     }
                 })
                 .build();

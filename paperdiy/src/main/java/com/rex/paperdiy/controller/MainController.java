@@ -37,7 +37,7 @@ public class MainController extends BaseWebController {
         m.put("pid", pid);
         m.put("rownum", start);
         m.put("pagesize", limit);
-        HttpResultObj<String> r = submitHttpAction("client/papermodel/getByPid.action", String.class, m, 5000, 5000, "POST");
+        HttpResultObj<String> r = submitHttpAction("client/papermodel/getPageByPid.action", String.class, m, 5000, 5000, "POST");
         return r;
     }
 }
