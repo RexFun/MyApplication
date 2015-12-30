@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/greendaodemo/greendaodemo.iml" filepath="$PROJECT_DIR$/greendaodemo/greendaodemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/greendaogen/greendaogen.iml" filepath="$PROJECT_DIR$/greendaogen/greendaogen.iml" />
-      <module fileurl="file://$PROJECT_DIR$/httplib/httplib.iml" filepath="$PROJECT_DIR$/httplib/httplib.iml" />
       <module fileurl="file://$PROJECT_DIR$/paperdiy/paperdiy.iml" filepath="$PROJECT_DIR$/paperdiy/paperdiy.iml" />
     </modules>
   </component>
