@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rex.paperdiy.R;
 import com.rexfun.androidlibrarytool.InjectUtil;
@@ -43,6 +43,10 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
         if (mList.size() > 0) {
             holder.tvPaperModelId.setText(mList.get(position).get("ID"));
             holder.tvPaperModelName.setText(mList.get(position).get("NAME"));
+            MainActivity.mImageLoader.displayImage(
+                    ctx.getString(R.string.app_path)+"/client/paperimage/getPaperImageByPidAndMaxSort.action?pid=" + mList.get(position).get("ID"),
+                    holder.ivPaperModelBmp,
+                    MainActivity.mDisplayImageOptions);
         }
     }
 
@@ -54,6 +58,7 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         @InjectUtil.InjectView(id=R.id.tv_paper_model_id) TextView tvPaperModelId;
         @InjectUtil.InjectView(id=R.id.tv_paper_model_name) TextView tvPaperModelName;
+        @InjectUtil.InjectView(id=R.id.iv_paper_model_bmp) ImageView ivPaperModelBmp;
         MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);

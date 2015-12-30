@@ -52,7 +52,7 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
 
     @Override
     protected HttpResultObj<String> doInBackground(String... params) {
-        HttpResultObj<String> result = controller.getPaperModelListByPid(params[0],params[1],params[2]);
+        HttpResultObj<String> result = controller.getPaperModelPageByPid(params[0],params[1],params[2]);
         return result;
     }
 
