@@ -17,4 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!-- My application theme. -->
+    <style name="MyAppTheme.NoActionBar" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue_light</item>
+        <item name="colorPrimaryDark">@color/blue_light_open</item>
+        <item name="colorAccent">@color/md_light_green_A100</item>
+    </style>
 </resources>

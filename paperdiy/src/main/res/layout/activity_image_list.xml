@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_popup_sync"
+        android:src="@drawable/ic_sync_black_16dp_2x"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
