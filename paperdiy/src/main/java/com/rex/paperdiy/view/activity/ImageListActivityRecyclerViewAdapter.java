@@ -1,8 +1,6 @@
 package com.rex.paperdiy.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +17,12 @@ import java.util.Map;
 /**
  * Created by mac373 on 15/11/30.
  */
-public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainActivityRecyclerViewAdapter.MyViewHolder> {
+public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<ImageListActivityRecyclerViewAdapter.MyViewHolder> {
     private final Context ctx;
     private final List<Map<String, String>> mList;
     private final LayoutInflater mLayoutInflater;
 
-    public MainActivityRecyclerViewAdapter(Context context, List list) {
+    public ImageListActivityRecyclerViewAdapter(Context context, List list) {
         this.ctx = context;
         this.mList = list;
         this.mLayoutInflater = LayoutInflater.from(this.ctx);
@@ -36,17 +34,17 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_main_recycler_view_item, parent, false));
+        return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_image_list_recycler_view_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if (mList.size() > 0) {
-            holder.tvPaperModelId.setText(mList.get(position).get("ID"));
-            holder.tvPaperModelName.setText(mList.get(position).get("NAME"));
+            holder.tvPaperImageId.setText(mList.get(position).get("ID"));
+            holder.tvPaperImageSort.setText("第 "+mList.get(position).get("SORT")+" 步");
             MainActivity.mImageLoader.displayImage(
-                    ctx.getString(R.string.app_path)+"/client/paperimage/getPaperImageByPidAndMaxSort.action?pid=" + mList.get(position).get("ID"),
-                    holder.ivPaperModelBmp,
+                    ctx.getString(R.string.app_path)+"/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
+                    holder.ivPaperImageBmp,
                     MainActivity.mDisplayImageOptions);
         }
     }
@@ -57,19 +55,19 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @InjectUtil.InjectView(id=R.id.tv_paper_model_id) TextView tvPaperModelId;
-        @InjectUtil.InjectView(id=R.id.tv_paper_model_name) TextView tvPaperModelName;
-        @InjectUtil.InjectView(id=R.id.iv_paper_model_bmp) ImageView ivPaperModelBmp;
+        @InjectUtil.InjectView(id=R.id.tv_paper_image_id) TextView tvPaperImageId;
+        @InjectUtil.InjectView(id=R.id.tv_paper_image_sort) TextView tvPaperImageSort;
+        @InjectUtil.InjectView(id=R.id.iv_paper_image_bmp) ImageView ivPaperImageBmp;
         MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle b = new Bundle();
-                    b.putLong("model_id", Long.valueOf(tvPaperModelId.getText().toString()));
-                    b.putCharSequence("model_name", tvPaperModelName.getText());
-                    MainActivityRecyclerViewAdapter.this.ctx.startActivity(new Intent().setClass(MainActivityRecyclerViewAdapter.this.ctx, ImageListActivity.class).putExtra("info", b));
+//                    Bundle b = new Bundle();
+//                    b.putLong("model_id", Long.valueOf(tvPaperImageId.getText().toString()));
+//                    b.putCharSequence("model_name", tvPaperImageName.getText());
+//                    ImageListActivityRecyclerViewAdapter.this.ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageListActivity.class).putExtra("info", b));
                 }
             });
         }

@@ -9,7 +9,7 @@
         android:top="4dp">
         <shape>
             <solid android:color="@android:color/darker_gray" />
-            <corners android:radius="10dp" />
+            <corners android:radius="@dimen/bg_corners_radius" />
         </shape>
     </item>
     <!-- 前景 -->
@@ -18,7 +18,7 @@
         android:right="2dp">
         <shape>
             <solid android:color="@android:color/holo_blue_light" />
-            <corners android:radius="10dp" />
+            <corners android:radius="@dimen/bg_corners_radius" />
         </shape>
     </item>
 </layer-list>

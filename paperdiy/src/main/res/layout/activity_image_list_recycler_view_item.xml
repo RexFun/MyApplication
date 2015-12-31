@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="350dp"
     android:padding="5dp"
     android:layout_margin="5dp"
     android:background="@drawable/bg_item_selector">
 
     <ImageView
-        android:id="@+id/iv_paper_model_bmp"
+        android:id="@+id/iv_paper_image_bmp"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="245dp"
         android:scaleType="fitXY"
         android:background="@color/gray_dark_open"/>
 
@@ -18,16 +18,17 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="left|center">
         <TextView
-            android:id="@+id/tv_paper_model_id"
+            android:id="@+id/tv_paper_image_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
         <TextView
-            android:id="@+id/tv_paper_model_name"
+            android:id="@+id/tv_paper_image_sort"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textSize="16dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)//设置图片以如何的编码方式显示
                 .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型//
-                //.delayBeforeLoading(int delayInMillis)//int delayInMillis为你设置的下载前的延迟时间
+//                .delayBeforeLoading(1000)//int delayInMillis为你设置的下载前的延迟时间
                 //设置图片加入缓存前，对bitmap进行设置
                 //.preProcessor(BitmapProcessor preProcessor)
                 .resetViewBeforeLoading(true)//设置图片在下载前是否重置，复位
