@@ -3,8 +3,6 @@ package com.rex.paperdiy.view.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -42,14 +40,10 @@ import com.rexfun.androidlibraryui.RexRecyclerView;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    @InjectUtil.InjectView(id = R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @InjectUtil.InjectView(id = R.id.recycler_view)
-    RexRecyclerView mRecyclerView;
-    @InjectUtil.InjectView(id = R.id.toolbar)
-    Toolbar mToolbar;
-    @InjectUtil.InjectView(id = R.id.fab)
-    FloatingActionButton fab;
+    @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
+    @InjectUtil.InjectView(id = R.id.toolbar) Toolbar mToolbar;
+    @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
 
     public static ImageLoader mImageLoader;
     public static DisplayImageOptions mDisplayImageOptions;
@@ -76,15 +70,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,11 +163,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //drawer header
         mDrawHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.side_nav_bar)
+                .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName("Mike Penz")
-                                .withEmail("mikepenz@gmail.com")
+                                .withName("Rex Fun")
+                                .withEmail("oleFun@icloud.com")
                                 .withIcon(getResources().getDrawable(android.R.drawable.sym_def_app_icon))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {

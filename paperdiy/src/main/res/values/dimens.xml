@@ -8,6 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <!-- Default bg corners radius -->
     <dimen name="bg_corners_radius">2dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="app_bar_height">155dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

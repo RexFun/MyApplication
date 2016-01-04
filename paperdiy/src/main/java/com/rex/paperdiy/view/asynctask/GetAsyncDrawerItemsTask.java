@@ -6,9 +6,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.rex.paperdiy.R;
 import com.rex.paperdiy.controller.MainController;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
@@ -62,7 +62,7 @@ public class GetAsyncDrawerItemsTask extends AsyncTask<String, Integer, HttpResu
                 item.withIdentifier(Integer.valueOf(m.get("ID").toString()));
                 item.withName(m.get("NAME").toString());
                 item.withTag(m.get("NAME").toString());
-                item.withIcon(R.drawable.ic_image_black_24dp);
+                item.withIcon(GoogleMaterial.Icon.gmd_image);
             }
             drawer.addItem(item);
         }
