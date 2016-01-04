@@ -30,8 +30,11 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
         this.mLayoutInflater = LayoutInflater.from(this.ctx);
     }
 
-    public void addListItem(List list) {
-        mList.addAll(list);
+    public void insertItems(List list) {
+        if(list.size() > 0) {
+            mList.addAll(list);
+            this.notifyItemInserted(mList.size() - 1);
+        }
     }
 
     @Override

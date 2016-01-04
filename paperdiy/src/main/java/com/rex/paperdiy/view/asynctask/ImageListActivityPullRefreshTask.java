@@ -68,8 +68,7 @@ public class ImageListActivityPullRefreshTask extends AsyncTask<String, Integer,
         if ("down".equals(direction)) {
             mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(ctx, list));
         } else {
-            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).addListItem(list);
-            mRecyclerView.getAdapter().notifyDataSetChanged();
+            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
         }
     }
 }

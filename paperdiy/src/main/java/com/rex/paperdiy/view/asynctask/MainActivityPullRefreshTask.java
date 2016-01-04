@@ -68,8 +68,7 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
         if ("down".equals(direction)) {
             mRecyclerView.setAdapter(new MainActivityRecyclerViewAdapter(ctx, list));
         } else {
-            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).addListItem(list);
-            mRecyclerView.getAdapter().notifyDataSetChanged();
+            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
         }
     }
 }
