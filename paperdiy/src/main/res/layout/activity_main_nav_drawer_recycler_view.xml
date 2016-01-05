@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/left_drawer"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/nav_drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:src="@drawable/header"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/nav_drawer_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nav_drawer_header">
+        <com.rexfun.androidlibraryui.RexRecyclerView
+            android:id="@+id/nav_drawer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

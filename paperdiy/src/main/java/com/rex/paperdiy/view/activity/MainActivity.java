@@ -1,25 +1,22 @@
 package com.rex.paperdiy.view.activity;
 
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -33,7 +30,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.asynctask.MainActivityGetDrawerDataTask;
+import com.rex.paperdiy.view.asynctask.MainActivityNavDrawerPullRefreshTask;
 import com.rex.paperdiy.view.asynctask.MainActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
@@ -42,6 +39,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    @InjectUtil.InjectView(id = R.id.nav_drawer_layout) DrawerLayout mNavDrawerLayout;
+    @InjectUtil.InjectView(id = R.id.nav_drawer_swipe_refresh_layout) SwipeRefreshLayout mNavDrawerSwipeRefreshLayout;
+    @InjectUtil.InjectView(id = R.id.nav_drawer_recycler_view) RexRecyclerView mNavDrawerRecyclerView;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar mToolbar;
@@ -49,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public static ImageLoader mImageLoader;
     public static DisplayImageOptions mDisplayImageOptions;
+    private ActionBarDrawerToggle mDrawerToggle;
     private RecyclerView.LayoutManager mLayoutManager;
-    private AccountHeader mDrawHeader;
-    private Drawer mDrawer;
+//    private AccountHeader mDrawHeader;
+//    private Drawer mDrawer;
     private int curNavId;
 
     @Override
@@ -72,19 +73,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -92,10 +92,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -156,53 +168,110 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     private void initToolbar() {
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
     }
 
     /**
      * 初始化抽屉式导航
      */
     private void initNavDrawer() {
-        //drawer header
-        mDrawHeader = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName("Rex Fun")
-                                .withEmail("https://github.com/RexFun")
-                                .withIcon(R.mipmap.ic_account_header)
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
-                        return false;
-                    }
-                })
-                .build();
+        initNavDrawerToogle();
+        initNavDrawerSwipeRefreshLayout();
+        initNavDrawerRecyclerView();
+    }
+//    private void initNavDrawer() {
+//        //drawer header
+//        mDrawHeader = new AccountHeaderBuilder()
+//                .withActivity(this)
+//                .withHeaderBackground(R.drawable.header)
+//                .addProfiles(
+//                        new ProfileDrawerItem()
+//                                .withName("Rex Fun")
+//                                .withEmail("https://github.com/RexFun")
+//                                .withIcon(R.mipmap.ic_account_header)
+//                )
+//                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+//                    @Override
+//                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+//                        startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
+//                        return false;
+//                    }
+//                })
+//                .build();
+//        //drawer item
+//        mDrawer = new DrawerBuilder()
+//                .withActivity(this)
+//                .withToolbar(mToolbar)
+//                .withAccountHeader(mDrawHeader)
+//                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+//                    @Override
+//                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+//                        curNavId = drawerItem.getIdentifier();
+//                        pullDownRefresh(curNavId, 0, 5);
+////                        以下setTitle无效 ？
+////                        Toast.makeText(MainActivity.this, ((Nameable)drawerItem).getName().getText(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
+////                        getSupportActionBar().setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
+////                        if (drawerItem instanceof Nameable) {
+////                            getSupportActionBar().setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
+////                        }
+//                        return false;
+//                    }
+//                })
+//                .build();
+//        getAsyncDrawerItems();
+//        mDrawer.openDrawer();
+//    }
 
-        //drawer item
-        mDrawer = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(mToolbar)
-                .withAccountHeader(mDrawHeader)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        curNavId = drawerItem.getIdentifier();
-                        pullDownRefresh(curNavId, 0, 5);
-//                        以下setTitle无效 ？
-//                        Toast.makeText(MainActivity.this, ((Nameable)drawerItem).getName().getText(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
-//                        setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
-//                        if (drawerItem instanceof Nameable) {
-//                            setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
-//                        }
-                        return false;
-                    }
-                })
-                .build();
-        getAsyncDrawerItems();
-        mDrawer.openDrawer();
+    /**
+     * 初始化NavDrawerToogle
+     */
+    private void initNavDrawerToogle() {
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mNavDrawerLayout,         /* DrawerLayout object */
+                R.string.navigation_drawer_open,  /* "open drawer" description */
+                R.string.navigation_drawer_close  /* "close drawer" description */
+        ) {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+//                getActionBar().setTitle(mTitle);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+//                getActionBar().setTitle(mDrawerTitle);
+            }
+        };
+        mNavDrawerLayout.openDrawer(findViewById(R.id.left_drawer));
+        mNavDrawerLayout.setDrawerListener(mDrawerToggle);
+        pullDownRefreshNavDrawer();
+    }
+    /**
+     * 初始化NavDrawerSwipeRefreshLayout
+     */
+    private void initNavDrawerSwipeRefreshLayout() {
+        mNavDrawerSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullDownRefreshNavDrawer();
+            }
+        });
+        mNavDrawerSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_red_light,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+    }
+    /**
+     * 初始化NavDrawerRecyclerView
+     */
+    private void initNavDrawerRecyclerView() {
+        //设置布局
+        mLayoutManager = new LinearLayoutManager(this);
+        mNavDrawerRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
+        mNavDrawerRecyclerView.setAdapter(new MainActivityNavDrawerRecyclerViewAdapter(this, new ArrayList()));
     }
 
     /**
@@ -216,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
     }
-
     /**
      * 初始化RecyclerView
      */
@@ -237,7 +305,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void getAsyncDrawerItems() {
-        new MainActivityGetDrawerDataTask(this, mDrawer).execute();
+//        new MainActivityGetDrawerDataTask(this, mDrawer).execute();
+    }
+
+    private void pullDownRefreshNavDrawer() {
+        new MainActivityNavDrawerPullRefreshTask(this, mNavDrawerSwipeRefreshLayout, mNavDrawerRecyclerView).execute();
     }
 
     private void pullDownRefresh(int navId, int start, int limit) {
