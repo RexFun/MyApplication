@@ -15,6 +15,8 @@ import com.rex.paperdiy.view.asynctask.ImageListActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
 
+import java.util.ArrayList;
+
 public class ImageListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar toolbar;
     @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
@@ -92,6 +94,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         //设置布局
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
+        mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(this, new ArrayList()));
         mRecyclerView.setOnPullUpRefreshListener(new RexRecyclerView.OnPullUpRefreshListener() {
             @Override
             public void doRefresh() {

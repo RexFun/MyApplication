@@ -1,5 +1,6 @@
 package com.rex.paperdiy.view.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,6 +39,7 @@ import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -167,12 +169,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName("Rex Fun")
-                                .withEmail("oleFun@icloud.com")
-                                .withIcon(getResources().getDrawable(android.R.drawable.sym_def_app_icon))
+                                .withEmail("https://github.com/RexFun")
+                                .withIcon(R.mipmap.ic_account_header)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
                         return false;
                     }
                 })
@@ -187,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         curNavId = drawerItem.getIdentifier();
-                        pullDownRefresh(drawerItem.getIdentifier(), 0, 5);
+                        pullDownRefresh(curNavId, 0, 5);
                         return false;
                     }
                 })
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //        mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性宫格显示 类似于grid view
+        mRecyclerView.setAdapter(new MainActivityRecyclerViewAdapter(this, new ArrayList()));
         mRecyclerView.setOnPullUpRefreshListener(new RexRecyclerView.OnPullUpRefreshListener() {
             @Override
             public void doRefresh() {
