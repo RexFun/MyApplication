@@ -191,33 +191,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         curNavId = drawerItem.getIdentifier();
                         pullDownRefresh(curNavId, 0, 5);
+//                        以下setTitle无效 ？
+//                        Toast.makeText(MainActivity.this, ((Nameable)drawerItem).getName().getText(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
+//                        setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
+//                        if (drawerItem instanceof Nameable) {
+//                            setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
+//                        }
                         return false;
                     }
                 })
                 .build();
         getAsyncDrawerItems();
         mDrawer.openDrawer();
-
-//        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("home");
-//        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName("item_setting");
-//        mDrawer = new DrawerBuilder()
-//                    .withActivity(this)
-//                    .withToolbar(mToolbar)
-//                    .addDrawerItems(
-//                            item1,
-//                            new DividerDrawerItem(),
-//                            item2,
-//                            new SecondaryDrawerItem().withName("item_setting")
-//                    )
-//                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-//                        @Override
-//                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-//                            // do something with the clicked item :D
-//                            return false;
-//                        }
-//                    })
-//                    .build();
-//        mDrawer.openDrawer();
     }
 
     /**
