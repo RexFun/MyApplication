@@ -33,7 +33,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.asynctask.GetAsyncDrawerItemsTask;
+import com.rex.paperdiy.view.asynctask.MainActivityGetDrawerDataTask;
 import com.rex.paperdiy.view.asynctask.MainActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void getAsyncDrawerItems() {
-        new GetAsyncDrawerItemsTask(this, mDrawer).execute();
+        new MainActivityGetDrawerDataTask(this, mDrawer).execute();
     }
 
     private void pullDownRefresh(int navId, int start, int limit) {

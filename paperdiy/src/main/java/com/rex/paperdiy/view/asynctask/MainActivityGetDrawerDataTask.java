@@ -19,13 +19,13 @@ import java.util.Map;
 /**
  * Created by mac373 on 15/11/25.
  */
-public class GetAsyncDrawerItemsTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
+public class MainActivityGetDrawerDataTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
 
     private Context ctx;
     private MainController controller;
     private Drawer drawer;
 
-    public GetAsyncDrawerItemsTask(Context _ctx, Drawer _drawer) {
+    public MainActivityGetDrawerDataTask(Context _ctx, Drawer _drawer) {
         this.ctx = _ctx;
         this.drawer = _drawer;
         this.controller = new MainController(_ctx);
