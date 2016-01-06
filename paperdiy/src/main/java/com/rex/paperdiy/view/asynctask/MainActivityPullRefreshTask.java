@@ -26,7 +26,6 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
     private MainController controller;
     private SwipeRefreshLayout mSwipeLayout;
     private RecyclerView mRecyclerView;
-    private List mList;
     private String direction = "down";//pull方向(up/down)，默认"down"
 
     public MainActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
@@ -66,7 +65,7 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
         List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
         mSwipeLayout.setRefreshing(false);
         if ("down".equals(direction)) {
-            mRecyclerView.setAdapter(new MainActivityRecyclerViewAdapter(ctx, list));
+            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
         } else {
             ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
         }

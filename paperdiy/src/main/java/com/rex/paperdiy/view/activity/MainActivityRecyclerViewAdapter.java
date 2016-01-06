@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rex.paperdiy.R;
 import com.rexfun.androidlibrarytool.InjectUtil;
@@ -37,14 +38,21 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
         }
     }
 
+    public void refreshItems(List list) {
+        mList.clear();
+        mList.addAll(list);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_main_recycler_view_item, parent, false));
+        return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_main_content_recycler_view_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if (mList.size() > 0) {
+            holder.tvNavName.setText(mList.get(position).get("NAV_NAME"));
             holder.tvPaperModelId.setText(mList.get(position).get("ID"));
             holder.tvPaperModelName.setText(mList.get(position).get("NAME"));
             MainActivity.mImageLoader.displayImage(
@@ -60,6 +68,7 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        @InjectUtil.InjectView(id=R.id.tv_nav_name) TextView tvNavName;
         @InjectUtil.InjectView(id=R.id.tv_paper_model_id) TextView tvPaperModelId;
         @InjectUtil.InjectView(id=R.id.tv_paper_model_name) TextView tvPaperModelName;
         @InjectUtil.InjectView(id=R.id.iv_paper_model_bmp) ImageView ivPaperModelBmp;
@@ -69,7 +78,9 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(ctx, tvNavName.getText(), Toast.LENGTH_SHORT).show();
                     Bundle b = new Bundle();
+                    b.putCharSequence("nav_name", tvNavName.getText());
                     b.putLong("model_id", Long.valueOf(tvPaperModelId.getText().toString()));
                     b.putCharSequence("model_name", tvPaperModelName.getText());
                     MainActivityRecyclerViewAdapter.this.ctx.startActivity(new Intent().setClass(MainActivityRecyclerViewAdapter.this.ctx, ImageListActivity.class).putExtra("info", b));

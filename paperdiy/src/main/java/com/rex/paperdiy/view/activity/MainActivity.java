@@ -3,6 +3,7 @@ package com.rex.paperdiy.view.activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -38,12 +40,13 @@ import com.rexfun.androidlibraryui.RexRecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity {
     @InjectUtil.InjectView(id = R.id.nav_drawer_layout) DrawerLayout mNavDrawerLayout;
     @InjectUtil.InjectView(id = R.id.nav_drawer_swipe_refresh_layout) SwipeRefreshLayout mNavDrawerSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.nav_drawer_recycler_view) RexRecyclerView mNavDrawerRecyclerView;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
+    @InjectUtil.InjectView(id = R.id.toolbar_layout) CollapsingToolbarLayout mToolbarLayout;
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar mToolbar;
     @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
 
@@ -51,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public static DisplayImageOptions mDisplayImageOptions;
     private ActionBarDrawerToggle mDrawerToggle;
     private RecyclerView.LayoutManager mLayoutManager;
-//    private AccountHeader mDrawHeader;
-//    private Drawer mDrawer;
     private int curNavId;
 
     @Override
@@ -108,11 +109,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onRefresh() {
-        pullDownRefresh(curNavId, 0, 5);
     }
 
     /**
@@ -180,48 +176,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         initNavDrawerSwipeRefreshLayout();
         initNavDrawerRecyclerView();
     }
-//    private void initNavDrawer() {
-//        //drawer header
-//        mDrawHeader = new AccountHeaderBuilder()
-//                .withActivity(this)
-//                .withHeaderBackground(R.drawable.header)
-//                .addProfiles(
-//                        new ProfileDrawerItem()
-//                                .withName("Rex Fun")
-//                                .withEmail("https://github.com/RexFun")
-//                                .withIcon(R.mipmap.ic_account_header)
-//                )
-//                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-//                    @Override
-//                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-//                        startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
-//                        return false;
-//                    }
-//                })
-//                .build();
-//        //drawer item
-//        mDrawer = new DrawerBuilder()
-//                .withActivity(this)
-//                .withToolbar(mToolbar)
-//                .withAccountHeader(mDrawHeader)
-//                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-//                    @Override
-//                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-//                        curNavId = drawerItem.getIdentifier();
-//                        pullDownRefresh(curNavId, 0, 5);
-////                        以下setTitle无效 ？
-////                        Toast.makeText(MainActivity.this, ((Nameable)drawerItem).getName().getText(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
-////                        getSupportActionBar().setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
-////                        if (drawerItem instanceof Nameable) {
-////                            getSupportActionBar().setTitle(((Nameable) drawerItem).getName().getText(MainActivity.this));
-////                        }
-//                        return false;
-//                    }
-//                })
-//                .build();
-//        getAsyncDrawerItems();
-//        mDrawer.openDrawer();
-//    }
 
     /**
      * 初始化NavDrawerToogle
@@ -236,17 +190,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-//                getActionBar().setTitle(mTitle);
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                getActionBar().setTitle(mDrawerTitle);
             }
         };
         mNavDrawerLayout.openDrawer(findViewById(R.id.left_drawer));
         mNavDrawerLayout.setDrawerListener(mDrawerToggle);
-        pullDownRefreshNavDrawer();
+        pullRefreshNavDrawer();
     }
     /**
      * 初始化NavDrawerSwipeRefreshLayout
@@ -255,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mNavDrawerSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pullDownRefreshNavDrawer();
+                pullRefreshNavDrawer();
             }
         });
         mNavDrawerSwipeRefreshLayout.setColorSchemeResources(
@@ -271,14 +223,31 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //设置布局
         mLayoutManager = new LinearLayoutManager(this);
         mNavDrawerRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
-        mNavDrawerRecyclerView.setAdapter(new MainActivityNavDrawerRecyclerViewAdapter(this, new ArrayList()));
+        MainActivityNavDrawerRecyclerViewAdapter adapter = new MainActivityNavDrawerRecyclerViewAdapter(this, new ArrayList());
+        adapter.setOnItemClickListener(new MainActivityNavDrawerRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tvNavId = (TextView) v.findViewById(R.id.tv_nav_id);
+                curNavId = Integer.valueOf(String.valueOf(tvNavId.getText()));
+                TextView tvNavName = (TextView) v.findViewById(R.id.tv_nav_name);
+                mToolbarLayout.setTitle(" " + tvNavName.getText());
+                mNavDrawerLayout.closeDrawers();
+                pullDownRefresh(curNavId, 0, 5);
+            }
+        });
+        mNavDrawerRecyclerView.setAdapter(adapter);
     }
 
     /**
      * 初始化SwipeRefreshLayout
      */
     private void initSwipeRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullDownRefresh(curNavId, 0, 5);
+            }
+        });
         mSwipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_red_light,
                 android.R.color.holo_blue_light,
@@ -290,8 +259,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     private void initRecyclerView() {
         //设置布局
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性显示 类似于listview
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);//这里用线性宫格显示 类似于grid view
         mRecyclerView.setAdapter(new MainActivityRecyclerViewAdapter(this, new ArrayList()));
@@ -304,11 +271,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
-    private void getAsyncDrawerItems() {
-//        new MainActivityGetDrawerDataTask(this, mDrawer).execute();
-    }
-
-    private void pullDownRefreshNavDrawer() {
+    private void pullRefreshNavDrawer() {
         new MainActivityNavDrawerPullRefreshTask(this, mNavDrawerSwipeRefreshLayout, mNavDrawerRecyclerView).execute();
     }
 

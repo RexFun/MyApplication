@@ -26,22 +26,12 @@ public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Inte
     private MainController controller;
     private SwipeRefreshLayout mSwipeLayout;
     private RecyclerView mRecyclerView;
-    private List mList;
-    private String direction = "down";//pull方向(up/down)，默认"down"
 
     public MainActivityNavDrawerPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
         this.ctx = ctx;
         this.controller = new MainController(this.ctx);
         this.mSwipeLayout = mSwipeLayout;
         this.mRecyclerView = mRecyclerView;
-    }
-
-    public MainActivityNavDrawerPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView, String direction) {
-        this.ctx = ctx;
-        this.controller = new MainController(this.ctx);
-        this.mSwipeLayout = mSwipeLayout;
-        this.mRecyclerView = mRecyclerView;
-        this.direction = direction;
     }
 
     @Override
@@ -63,12 +53,8 @@ public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Inte
             Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
             return;
         }
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
         mSwipeLayout.setRefreshing(false);
-        if ("down".equals(direction)) {
-            mRecyclerView.setAdapter(new MainActivityNavDrawerRecyclerViewAdapter(ctx, list));
-        } else {
-            ((MainActivityNavDrawerRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
-        }
+        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(), new TypeToken<List<Map<String,String>>>(){}.getType());
+        ((MainActivityNavDrawerRecyclerViewAdapter) mRecyclerView.getAdapter()).refreshItems(list);
     }
 }

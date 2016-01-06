@@ -1,6 +1,7 @@
 package com.rex.paperdiy.view.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +19,13 @@ import com.rexfun.androidlibraryui.RexRecyclerView;
 import java.util.ArrayList;
 
 public class ImageListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    @InjectUtil.InjectView(id = R.id.toolbar_layout) CollapsingToolbarLayout mToolbarLayout;
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar toolbar;
     @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
 
+    private CharSequence nav_name = "";
     private Long model_id = 0l;
     private CharSequence model_name = "";
 
@@ -35,7 +38,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         InjectUtil.injectView(this);
         initToolbar();
         receiveBundle();
-        setTitle(model_name);
+        setTitle(" " + nav_name + " > " +model_name);
         initSwipeRefreshLayout();
         initRecyclerView();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +69,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
 
     private void receiveBundle() {
         Bundle b = getIntent().getBundleExtra("info");
+        nav_name = b.getCharSequence("nav_name");
         model_id = b.getLong("model_id");
         model_name = b.getCharSequence("model_name");
     }

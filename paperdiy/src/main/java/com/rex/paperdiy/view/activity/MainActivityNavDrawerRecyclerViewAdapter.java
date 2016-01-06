@@ -20,6 +20,8 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
     private final Context ctx;
     private final List<Map<String, String>> mList;
     private final LayoutInflater mLayoutInflater;
+    private OnItemClickListener mListener;
+    private int curSelectedPosition = 0;
 
     public MainActivityNavDrawerRecyclerViewAdapter(Context context, List list) {
         this.ctx = context;
@@ -34,6 +36,12 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
         }
     }
 
+    public void refreshItems(List list) {
+        mList.clear();
+        mList.addAll(list);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_main_nav_drawer_recycler_view_item, parent, false));
@@ -44,6 +52,10 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
         if (mList.size() > 0) {
             holder.tvNavId.setText(mList.get(position).get("ID"));
             holder.tvNavName.setText(mList.get(position).get("NAME"));
+            holder.itemView.setTag(position);
+            if (position != curSelectedPosition) {
+                holder.itemView.setSelected(false);
+            }
         }
     }
 
@@ -61,8 +73,26 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MainActivityNavDrawerRecyclerViewAdapter.this.mListener.onClick(v);
+                    v.setSelected(true);
+                    curSelectedPosition = Integer.valueOf(String.valueOf(v.getTag()));
+                    notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    /**
+     * Item点击事件
+     * @param listener
+     */
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.mListener = listener;
+    }
+
+    public interface OnItemClickListener
+    {
+        public void onClick(View v);
     }
 }

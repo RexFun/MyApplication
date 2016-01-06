@@ -28,7 +28,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.rexfun.androidlibraryhttp:httplib:1.0.2'
     compile 'com.rexfun.androidlibrarytool:toollib:1.0.1'
-    compile 'com.rexfun.androidlibraryui:uilib:1.0.2'
+    compile 'com.rexfun.androidlibraryui:uilib:1.0.3'
     compile 'com.rexfun.androidlibrarycontroller:controllerlib:1.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile('com.mikepenz:materialdrawer:4.5.1@aar') {transitive = true}
