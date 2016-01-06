@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rex.paperdiy.R;
 import com.rexfun.androidlibrarytool.InjectUtil;
@@ -78,7 +77,6 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ctx, tvNavName.getText(), Toast.LENGTH_SHORT).show();
                     Bundle b = new Bundle();
                     b.putCharSequence("nav_name", tvNavName.getText());
                     b.putLong("model_id", Long.valueOf(tvPaperModelId.getText().toString()));
