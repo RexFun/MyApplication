@@ -21,8 +21,7 @@ import java.util.ArrayList;
 public class ImageListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     @InjectUtil.InjectView(id = R.id.toolbar_layout) CollapsingToolbarLayout mToolbarLayout;
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar toolbar;
-    @InjectUtil.InjectView(id = R.id.fab)
-    FloatingActionButton fab;
+    @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
 
@@ -67,7 +66,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
-        setTitle(nav_name + " > " + model_name);
+        mToolbarLayout.setTitle(nav_name + " > " + model_name);
     }
 
     @Override

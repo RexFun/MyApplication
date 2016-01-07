@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tvNavId = (TextView) v.findViewById(R.id.tv_nav_id);
                 curNavId = Integer.valueOf(String.valueOf(tvNavId.getText()));
                 TextView tvNavName = (TextView) v.findViewById(R.id.tv_nav_name);
-                mToolbarLayout.setTitle(" " + tvNavName.getText());
+                mToolbarLayout.setTitle(tvNavName.getText());
                 mNavDrawerLayout.closeDrawers();
                 pullDownRefresh(curNavId, 0, 5);
             }
