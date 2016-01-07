@@ -2,7 +2,6 @@ package com.rex.paperdiy.view.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.asynctask.ImageListActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
@@ -21,7 +21,8 @@ import java.util.ArrayList;
 public class ImageListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     @InjectUtil.InjectView(id = R.id.toolbar_layout) CollapsingToolbarLayout mToolbarLayout;
     @InjectUtil.InjectView(id = R.id.toolbar) Toolbar toolbar;
-    @InjectUtil.InjectView(id = R.id.fab) FloatingActionButton fab;
+    @InjectUtil.InjectView(id = R.id.fab)
+    FloatingActionButton fab;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.recycler_view) RexRecyclerView mRecyclerView;
 
@@ -36,17 +37,11 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_list);
         InjectUtil.injectView(this);
-        initToolbar();
         receiveBundle();
-        setTitle(" " + nav_name + " > " +model_name);
+        initToolbar();
         initSwipeRefreshLayout();
         initRecyclerView();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pullDownRefresh(model_id, 0, 5);
-            }
-        });
+        initFab();
     }
 
     @Override
@@ -61,17 +56,18 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         return super.onOptionsItemSelected(item);
     }
 
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
-    }
-
     private void receiveBundle() {
         Bundle b = getIntent().getBundleExtra("info");
         nav_name = b.getCharSequence("nav_name");
         model_id = b.getLong("model_id");
         model_name = b.getCharSequence("model_name");
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
+        setTitle(nav_name + " > " + model_name);
     }
 
     @Override
@@ -107,6 +103,19 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
             }
         });
         pullDownRefresh(model_id, 0, 5);
+    }
+
+    /**
+     * 初始化FloatingButton
+     */
+    private void initFab() {
+        fab.attachToRecyclerView(mRecyclerView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pullDownRefresh(model_id, 0, 5);
+            }
+        });
     }
 
     private void pullDownRefresh(Long model_id, int start, int limit) {

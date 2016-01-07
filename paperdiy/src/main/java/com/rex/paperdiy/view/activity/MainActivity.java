@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -66,12 +66,7 @@ public class MainActivity extends AppCompatActivity {
         initSwipeRefreshLayout();
         initRecyclerView();
         initNavDrawer();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pullDownRefresh(curNavId,0,5);
-            }
-        });
+        initFab();
     }
 
     @Override
@@ -267,6 +262,19 @@ public class MainActivity extends AppCompatActivity {
             public void doRefresh() {
                 mSwipeRefreshLayout.setRefreshing(true);
                 pullUpRefresh(curNavId, mRecyclerView.getAdapter().getItemCount(), 5);
+            }
+        });
+    }
+
+    /**
+     * 初始化FloatingButton
+     */
+    private void initFab() {
+        fab.attachToRecyclerView(mRecyclerView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pullDownRefresh(curNavId,0,5);
             }
         });
     }

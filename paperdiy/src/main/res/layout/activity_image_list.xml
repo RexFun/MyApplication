@@ -45,12 +45,14 @@
 
     <include layout="@layout/activity_image_list_recycler_view" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_refresh" />
-
+        android:src="@drawable/ic_refresh"
+        app:fab_colorNormal="@color/fabColorNormal"
+        app:fab_colorPressed="@color/fabColorPressed"
+        app:fab_colorRipple="@color/fabColorPressed"/>
 </android.support.design.widget.CoordinatorLayout>
