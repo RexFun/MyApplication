@@ -26,7 +26,6 @@ public class ImageListActivityPullRefreshTask extends AsyncTask<String, Integer,
     private MainController controller;
     private SwipeRefreshLayout mSwipeLayout;
     private RecyclerView mRecyclerView;
-    private List mList;
     private String direction = "down";//pull方向(up/down)，默认"down"
 
     public ImageListActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
@@ -66,7 +65,8 @@ public class ImageListActivityPullRefreshTask extends AsyncTask<String, Integer,
         List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
         mSwipeLayout.setRefreshing(false);
         if ("down".equals(direction)) {
-            mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(ctx, list));
+//            mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(ctx, list));
+            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
         } else {
             ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
         }

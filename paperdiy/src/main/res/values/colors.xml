@@ -9,4 +9,6 @@
 
     <color name="fabColorNormal">#FF4081</color>
     <color name="fabColorPressed">#C2185B</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

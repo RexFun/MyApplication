@@ -1,6 +1,8 @@
 package com.rex.paperdiy.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,12 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
         }
     }
 
+    public void refreshItems(List list) {
+        mList.clear();
+        mList.addAll(list);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mLayoutInflater.inflate(R.layout.activity_image_list_recycler_view_item, parent, false));
@@ -44,9 +52,11 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if (mList.size() > 0) {
             holder.tvPaperImageId.setText(mList.get(position).get("ID"));
-            holder.tvPaperImageSort.setText("第 "+mList.get(position).get("SORT")+" 步");
+            holder.tvPaperImagePid.setText(mList.get(position).get("PID"));
+            holder.tvPaperImageSort.setText(mList.get(position).get("SORT"));
+            holder.tvStep.setText("第 "+mList.get(position).get("SORT")+" 步");
             MainActivity.mImageLoader.displayImage(
-                    ctx.getString(R.string.app_path)+"/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
+                    ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
                     holder.ivPaperImageBmp,
                     MainActivity.mDisplayImageOptions);
         }
@@ -59,18 +69,21 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @InjectUtil.InjectView(id=R.id.tv_paper_image_id) TextView tvPaperImageId;
+        @InjectUtil.InjectView(id=R.id.tv_paper_image_pid) TextView tvPaperImagePid;
         @InjectUtil.InjectView(id=R.id.tv_paper_image_sort) TextView tvPaperImageSort;
         @InjectUtil.InjectView(id=R.id.iv_paper_image_bmp) ImageView ivPaperImageBmp;
+        @InjectUtil.InjectView(id=R.id.tv_step) TextView tvStep;
         MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Bundle b = new Bundle();
-//                    b.putLong("model_id", Long.valueOf(tvPaperImageId.getText().toString()));
-//                    b.putCharSequence("model_name", tvPaperImageName.getText());
-//                    ImageListActivityRecyclerViewAdapter.this.ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageListActivity.class).putExtra("info", b));
+                    Bundle b = new Bundle();
+                    b.putLong("image_id", Long.valueOf(tvPaperImageId.getText().toString()));
+                    b.putLong("image_pid", Long.valueOf(tvPaperImagePid.getText().toString()));
+                    b.putInt("image_sort", Integer.valueOf(tvPaperImageSort.getText().toString()));
+                    ImageListActivityRecyclerViewAdapter.this.ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenPagerActivity.class).putExtra("info", b));
                 }
             });
         }

@@ -44,10 +44,8 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
             case android.R.id.home://返回
                 this.finish();
                 break;

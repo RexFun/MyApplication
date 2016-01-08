@@ -73,7 +73,7 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainActivityNavDrawerRecyclerViewAdapter.this.mListener.onClick(v);
+                    mListener.onClick(v);
                     v.setSelected(true);
                     curSelectedPosition = Integer.valueOf(String.valueOf(v.getTag()));
                     notifyDataSetChanged();

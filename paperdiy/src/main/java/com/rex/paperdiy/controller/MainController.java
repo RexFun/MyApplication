@@ -49,4 +49,11 @@ public class MainController extends BaseWebController {
         HttpResultObj<String> r = submitHttpAction("/client/paperimage/getPageByPid.action", String.class, m, 5000, 5000, "POST");
         return r;
     }
+
+    public HttpResultObj<String> getPaperImageListByPid(String pid) {
+        Map<String,String> m = new HashMap<String,String>();
+        m.put("pid", pid);
+        HttpResultObj<String> r = submitHttpAction("/client/paperimage/getListByPid.action", String.class, m, 5000, 5000, "POST");
+        return r;
+    }
 }

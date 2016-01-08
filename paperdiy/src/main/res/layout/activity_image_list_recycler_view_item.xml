@@ -27,7 +27,17 @@
             android:layout_height="wrap_content"
             android:visibility="gone"/>
         <TextView
+            android:id="@+id/tv_paper_image_pid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
             android:id="@+id/tv_paper_image_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16dp"/>
