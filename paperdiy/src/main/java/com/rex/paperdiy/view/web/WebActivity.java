@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.web;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

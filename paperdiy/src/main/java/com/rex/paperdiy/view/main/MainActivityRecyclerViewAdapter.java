@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rex.paperdiy.R;
+import com.rex.paperdiy.view.imageList.ImageListActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
 
 import java.util.List;

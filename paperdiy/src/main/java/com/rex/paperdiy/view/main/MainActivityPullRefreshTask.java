@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.asynctask;
+package com.rex.paperdiy.view.main;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rex.paperdiy.controller.MainController;
-import com.rex.paperdiy.view.activity.MainActivityNavDrawerRecyclerViewAdapter;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.List;
@@ -20,18 +19,27 @@ import java.util.Map;
 /**
  * Created by mac373 on 15/11/25.
  */
-public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
+public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
 
     private Context ctx;
     private MainController controller;
     private SwipeRefreshLayout mSwipeLayout;
     private RecyclerView mRecyclerView;
+    private String direction = "down";//pull方向(up/down)，默认"down"
 
-    public MainActivityNavDrawerPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
+    public MainActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
         this.ctx = ctx;
         this.controller = new MainController(this.ctx);
         this.mSwipeLayout = mSwipeLayout;
         this.mRecyclerView = mRecyclerView;
+    }
+
+    public MainActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView, String direction) {
+        this.ctx = ctx;
+        this.controller = new MainController(this.ctx);
+        this.mSwipeLayout = mSwipeLayout;
+        this.mRecyclerView = mRecyclerView;
+        this.direction = direction;
     }
 
     @Override
@@ -42,7 +50,7 @@ public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Inte
 
     @Override
     protected HttpResultObj<String> doInBackground(String... params) {
-        HttpResultObj<String> result = controller.getDataJson();
+        HttpResultObj<String> result = controller.getPaperModelPageByPid(params[0],params[1],params[2]);
         return result;
     }
 
@@ -53,8 +61,12 @@ public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Inte
             Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
             return;
         }
+        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
         mSwipeLayout.setRefreshing(false);
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(), new TypeToken<List<Map<String,String>>>(){}.getType());
-        ((MainActivityNavDrawerRecyclerViewAdapter) mRecyclerView.getAdapter()).refreshItems(list);
+        if ("down".equals(direction)) {
+            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
+        } else {
+            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
+        }
     }
 }

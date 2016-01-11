@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.asynctask.ImageFullscreenPagerActivityGetPagerDataTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 
 import java.util.ArrayList;

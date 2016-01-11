@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

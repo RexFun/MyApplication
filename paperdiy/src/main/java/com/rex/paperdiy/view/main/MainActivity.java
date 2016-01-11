@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.main;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -32,8 +32,6 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.asynctask.MainActivityNavDrawerPullRefreshTask;
-import com.rex.paperdiy.view.asynctask.MainActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
 
@@ -71,9 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mNavDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mNavDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -87,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -222,11 +218,15 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new MainActivityNavDrawerRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v) {
+                //set 当前导航id
                 TextView tvNavId = (TextView) v.findViewById(R.id.tv_nav_id);
                 curNavId = Integer.valueOf(String.valueOf(tvNavId.getText()));
-                TextView tvNavName = (TextView) v.findViewById(R.id.tv_nav_name);
-                mToolbarLayout.setTitle(tvNavName.getText());
+                //set 标题
+                final TextView tvNavName = (TextView) v.findViewById(R.id.tv_nav_name);
+                mToolbarLayout.setTitle(" "+tvNavName.getText());
+                //关闭 drawer
                 mNavDrawerLayout.closeDrawers();
+                //刷新数据
                 pullDownRefresh(curNavId, 0, 5);
             }
         });

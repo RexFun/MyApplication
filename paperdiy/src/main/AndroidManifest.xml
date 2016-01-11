@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".view.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.ImageListActivity"
+            android:name=".view.imageList.ImageListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.WebActivity" />
+        <activity android:name=".view.web.WebActivity" />
         <activity
-            android:name=".view.activity.ImageFullscreenPagerActivity"
+            android:name=".view.imageFullscreenPager.ImageFullscreenPagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme"></activity>
     </application>

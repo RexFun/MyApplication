@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.asynctask;
+package com.rex.paperdiy.view.imageList;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rex.paperdiy.controller.MainController;
-import com.rex.paperdiy.view.activity.MainActivityRecyclerViewAdapter;
+import com.rex.paperdiy.view.imageList.ImageListActivityRecyclerViewAdapter;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by mac373 on 15/11/25.
  */
-public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
+public class ImageListActivityPullRefreshTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
 
     private Context ctx;
     private MainController controller;
@@ -28,14 +28,14 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
     private RecyclerView mRecyclerView;
     private String direction = "down";//pull方向(up/down)，默认"down"
 
-    public MainActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
+    public ImageListActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView) {
         this.ctx = ctx;
         this.controller = new MainController(this.ctx);
         this.mSwipeLayout = mSwipeLayout;
         this.mRecyclerView = mRecyclerView;
     }
 
-    public MainActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView, String direction) {
+    public ImageListActivityPullRefreshTask(Context ctx, SwipeRefreshLayout mSwipeLayout, RecyclerView mRecyclerView, String direction) {
         this.ctx = ctx;
         this.controller = new MainController(this.ctx);
         this.mSwipeLayout = mSwipeLayout;
@@ -51,7 +51,7 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
 
     @Override
     protected HttpResultObj<String> doInBackground(String... params) {
-        HttpResultObj<String> result = controller.getPaperModelPageByPid(params[0],params[1],params[2]);
+        HttpResultObj<String> result = controller.getPaperImagePageByPid(params[0],params[1],params[2]);
         return result;
     }
 
@@ -65,9 +65,10 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
         List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
         mSwipeLayout.setRefreshing(false);
         if ("down".equals(direction)) {
-            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
+//            mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(ctx, list));
+            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
         } else {
-            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
+            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
         }
     }
 }

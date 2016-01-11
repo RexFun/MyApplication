@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.asynctask;
+package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,8 +9,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rex.paperdiy.controller.MainController;
-import com.rex.paperdiy.view.activity.ImageFullscreenPagerActivityAdapter;
-import com.rex.paperdiy.view.activity.ImageFullscreenPagerActivityFragment;
+import com.rex.paperdiy.view.imageFullscreenPager.ImageFullscreenPagerActivityAdapter;
+import com.rex.paperdiy.view.imageFullscreenPager.ImageFullscreenPagerActivityFragment;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.ArrayList;

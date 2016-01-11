@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.bm.library.PhotoView;
 import com.rex.paperdiy.R;
+import com.rex.paperdiy.view.main.MainActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
 
 public class ImageFullscreenPagerActivityFragment extends Fragment {

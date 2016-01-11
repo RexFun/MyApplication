@@ -1,4 +1,4 @@
-package com.rex.paperdiy.view.activity;
+package com.rex.paperdiy.view.imageList;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.asynctask.ImageListActivityPullRefreshTask;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
 
@@ -64,7 +63,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
-        mToolbarLayout.setTitle(nav_name + " > " + model_name);
+        mToolbarLayout.setTitle(" " + nav_name + " > " + model_name);
     }
 
     @Override
