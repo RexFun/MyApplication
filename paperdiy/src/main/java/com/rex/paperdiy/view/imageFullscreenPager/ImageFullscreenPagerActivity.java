@@ -2,6 +2,7 @@ package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class ImageFullscreenPagerActivity extends AppCompatActivity implements ImageFullscreenPagerActivityFragment.OnClickListener{
     @InjectUtil.InjectView(id = R.id.image_view_pager) ViewPager mViewPager;
+    @InjectUtil.InjectView(id = R.id.tablayout) TabLayout mTabLayout;
 
     private boolean mVisible;
     private static final int UI_ANIMATION_DELAY = 300;
@@ -139,7 +141,7 @@ public class ImageFullscreenPagerActivity extends AppCompatActivity implements I
     }
 
     private void loadData() {
-        new ImageFullscreenPagerActivityGetPagerDataTask(this, mViewPager, image_sort-1).execute(image_pid.toString());
+        new ImageFullscreenPagerActivityGetPagerDataTask(this, mTabLayout, mViewPager, image_sort-1).execute(image_pid.toString());
     }
 
     @Override

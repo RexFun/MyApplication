@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#F44336</color>-->
-    <!--<color name="colorPrimaryDark">#D32F2F</color>-->
-    <!--<color name="colorAccent">#F44336</color>-->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#CDDC39</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="fabColorNormal">#FF4081</color>
-    <color name="fabColorPressed">#C2185B</color>
+    <color name="fabColorNormal">@color/colorAccent</color>
+    <color name="fabColorPressed">#AFB42B</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
