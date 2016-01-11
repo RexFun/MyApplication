@@ -15,18 +15,10 @@
   limitations under the License.
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="500" android:exitFadeDuration="500">
-    <!-- 当前窗口失去焦点时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_lost_window_focused" android:state_window_focused="false" />
-    <!-- 不可用时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_disable" android:state_enabled="false" />
-    <!-- 按压时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_pressed" android:state_pressed="true" />
     <!-- 被选中时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_selected" android:state_selected="true" />
+    <item android:color="@color/primary_dark" android:state_selected="true" />
     <!-- 不被选中时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_normal" android:state_selected="false" />
-    <!-- 被激活时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_activated" android:state_activated="true" />
+    <item android:color="@color/gray_dark" android:state_selected="false" />
     <!-- 默认时 -->
-    <item android:drawable="@drawable/bg_nav_drawer_item_normal"/>
+    <item android:color="@color/gray_dark"/>
 </selector>

@@ -23,6 +23,8 @@
         android:id="@+id/tv_nav_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:textColor="@drawable/bg_nav_drawer_item_text_selector"
+        android:textStyle="italic"/>
 
 </LinearLayout>

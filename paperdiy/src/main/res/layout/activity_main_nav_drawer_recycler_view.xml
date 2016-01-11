@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/left_drawer"
+    android:id="@+id/left_nav_drawer_layout"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/white">
-    <ImageView
+    <FrameLayout
         android:id="@+id/nav_drawer_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:layout_marginBottom="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/header"/>
+        android:background="@drawable/header">
+        <ImageView
+            android:id="@+id/nav_drawer_header_author_image_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_author_header"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/material_drawer_account_header_text"
+            android:text="@string/author_github_url"/>
+    </FrameLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/nav_drawer_swipe_refresh_layout"
         android:layout_width="match_parent"

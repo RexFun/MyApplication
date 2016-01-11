@@ -1,5 +1,6 @@
 package com.rex.paperdiy.view.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -32,6 +34,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.rex.paperdiy.R;
+import com.rex.paperdiy.view.web.WebActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.rexfun.androidlibraryui.RexRecyclerView;
 
@@ -40,6 +43,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     @InjectUtil.InjectView(id = R.id.nav_drawer_layout) DrawerLayout mNavDrawerLayout;
+    @InjectUtil.InjectView(id = R.id.nav_drawer_header_author_image_view) ImageView mNavDrawerHeaderAuthorImageView;
     @InjectUtil.InjectView(id = R.id.nav_drawer_swipe_refresh_layout) SwipeRefreshLayout mNavDrawerSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.nav_drawer_recycler_view) RexRecyclerView mNavDrawerRecyclerView;
     @InjectUtil.InjectView(id = R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -166,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
         initNavDrawerToogle();
         initNavDrawerSwipeRefreshLayout();
         initNavDrawerRecyclerView();
+        mNavDrawerHeaderAuthorImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
+            }
+        });
     }
 
     /**
@@ -187,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerOpened(drawerView);
             }
         };
-        mNavDrawerLayout.openDrawer(findViewById(R.id.left_drawer));
+        mNavDrawerLayout.openDrawer(findViewById(R.id.left_nav_drawer_layout));
         mNavDrawerLayout.setDrawerListener(mDrawerToggle);
         pullRefreshNavDrawer();
     }
