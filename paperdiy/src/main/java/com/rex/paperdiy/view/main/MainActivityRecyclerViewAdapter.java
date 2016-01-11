@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.imageList.ImageListActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -55,10 +56,11 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
             holder.tvNavName.setText(mList.get(position).get("NAV_NAME"));
             holder.tvPaperModelId.setText(mList.get(position).get("ID"));
             holder.tvPaperModelName.setText(mList.get(position).get("NAME"));
-            MainActivity.mImageLoader.displayImage(
-                    ctx.getString(R.string.app_path)+"/client/paperimage/getPaperImageByPidAndMaxSort.action?pid=" + mList.get(position).get("ID"),
-                    holder.ivPaperModelBmp,
-                    MainActivity.mDisplayImageOptions);
+//            MainActivity.mImageLoader.displayImage(
+//                    ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageByPidAndMaxSort.action?pid=" + mList.get(position).get("ID"),
+//                    holder.ivPaperModelBmp,
+//                    MainActivity.mDisplayImageOptions);
+            Picasso.with(ctx).load(ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageByPidAndMaxSort.action?pid=" + mList.get(position).get("ID")).into(holder.ivPaperModelBmp);
         }
     }
 

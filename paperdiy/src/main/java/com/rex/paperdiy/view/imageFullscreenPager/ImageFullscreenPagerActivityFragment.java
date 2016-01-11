@@ -11,6 +11,7 @@ import com.bm.library.PhotoView;
 import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.main.MainActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
+import com.squareup.picasso.Picasso;
 
 public class ImageFullscreenPagerActivityFragment extends Fragment {
     @InjectUtil.InjectView(id=R.id.img)
@@ -56,6 +57,8 @@ public class ImageFullscreenPagerActivityFragment extends Fragment {
                 getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mParam1,
                 mImageView,
                 MainActivity.mDisplayImageOptions);
+
+//        Picasso.with(getContext()).load(getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mParam1).into(mImageView);
         return rootView;
     }
 

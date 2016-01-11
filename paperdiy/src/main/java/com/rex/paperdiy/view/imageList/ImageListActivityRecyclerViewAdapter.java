@@ -14,6 +14,7 @@ import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.imageFullscreenPager.ImageFullscreenPagerActivity;
 import com.rex.paperdiy.view.main.MainActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -57,10 +58,11 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
             holder.tvPaperImagePid.setText(mList.get(position).get("PID"));
             holder.tvPaperImageSort.setText(mList.get(position).get("SORT"));
             holder.tvStep.setText("第 "+mList.get(position).get("SORT")+" 步");
-            MainActivity.mImageLoader.displayImage(
-                    ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
-                    holder.ivPaperImageBmp,
-                    MainActivity.mDisplayImageOptions);
+//            MainActivity.mImageLoader.displayImage(
+//                    ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
+//                    holder.ivPaperImageBmp,
+//                    MainActivity.mDisplayImageOptions);
+            Picasso.with(ctx).load(ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID")).into(holder.ivPaperImageBmp);
         }
     }
 
