@@ -31,7 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.rexfun.androidlibrarytool:toollib:1.0.0'
-    compile 'com.rexfun.androidlibraryui:uilib:1.0.2'
+    compile 'com.rexfun.androidlibraryui:uilib:1.0.3'
     compile 'de.greenrobot:greendao:2.0.0'
     compile 'cn.pedant.sweetalert:library:1.3'
 }

@@ -58,8 +58,7 @@ public class PullRefreshTask extends AsyncTask<String, Integer, List> {
                 if ("down".equals(direction)) {
                     mRecyclerView.setAdapter(new MyRecyclerViewAdapter(ctx, list));
                 } else {
-                    ((MyRecyclerViewAdapter)mRecyclerView.getAdapter()).addListItem(list);
-                    mRecyclerView.getAdapter().notifyDataSetChanged();
+                    ((MyRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
                 }
 //            }
 //        }, 500);
