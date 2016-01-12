@@ -52,6 +52,7 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
         if (mList.size() > 0) {
             holder.tvNavId.setText(mList.get(position).get("ID"));
             holder.tvNavName.setText(mList.get(position).get("NAME"));
+            holder.tvNavQty.setText("("+mList.get(position).get("QTY")+")");
             holder.itemView.setTag(position);
             if (position != curSelectedPosition) {
                 holder.itemView.setSelected(false);
@@ -67,6 +68,7 @@ public class MainActivityNavDrawerRecyclerViewAdapter extends RecyclerView.Adapt
     public class MyViewHolder extends RecyclerView.ViewHolder {
         @InjectUtil.InjectView(id=R.id.tv_nav_id) TextView tvNavId;
         @InjectUtil.InjectView(id=R.id.tv_nav_name) TextView tvNavName;
+        @InjectUtil.InjectView(id=R.id.tv_nav_qty) TextView tvNavQty;
         MyViewHolder(View view) {
             super(view);
             InjectUtil.injectView(this, view);

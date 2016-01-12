@@ -3,8 +3,8 @@
 
     <!--
     <string name="app_path">http://www.tecamo.com:8087/paper</string>
-    <string name="app_path">http://192.168.19.123:8181/paper</string>
-     -->
     <string name="app_path">http://192.168.2.104:8087/paper</string>
+     -->
+    <string name="app_path">http://192.168.19.123:8181/paper</string>
 
 </resources>
