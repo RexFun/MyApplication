@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_drawer_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_bar_height"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/header">
+    <ImageView
+        android:id="@+id/nav_drawer_header_author_image_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="left|center"
+        android:layout_marginLeft="20dp"
+        android:src="@mipmap/ic_author_header"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:text="@string/author_github_url"/>
+</FrameLayout>
