@@ -46,7 +46,7 @@ public class ImageListActivity extends AppCompatActivity implements SwipeRefresh
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home://返回
-                this.finish();
+                supportFinishAfterTransition();
                 break;
         }
         return super.onOptionsItemSelected(item);

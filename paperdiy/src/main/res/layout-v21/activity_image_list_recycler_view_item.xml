@@ -16,6 +16,7 @@
         android:layout_height="350dp">
         <ImageView
             android:id="@+id/iv_paper_image_bmp"
+            android:transitionName="iv_paper_image_bmp"
             android:layout_width="match_parent"
             android:layout_height="245dp"
             android:scaleType="fitXY"
@@ -43,6 +44,7 @@
                 android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_step"
+                android:transitionName="tv_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"/>

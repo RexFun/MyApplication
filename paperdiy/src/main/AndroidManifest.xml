@@ -22,11 +22,14 @@
         <activity
             android:name=".view.imageList.ImageListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.web.WebActivity" />
+        <activity
+            android:name=".view.imageFullscreenDetail.ImageFullscreenDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.imageFullscreenPager.ImageFullscreenPagerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".view.web.WebActivity" />
     </application>
 
 </manifest>
