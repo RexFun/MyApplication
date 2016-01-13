@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     @InjectUtil.InjectView(id = R.id.nav_drawer_layout) DrawerLayout mNavDrawerLayout;
+    @InjectUtil.InjectView(id = R.id.nav_drawer_header) View mNavDrawerHeader;
     @InjectUtil.InjectView(id = R.id.nav_drawer_header_author_image_view) ImageView mNavDrawerHeaderAuthorImageView;
     @InjectUtil.InjectView(id = R.id.nav_drawer_swipe_refresh_layout) SwipeRefreshLayout mNavDrawerSwipeRefreshLayout;
     @InjectUtil.InjectView(id = R.id.nav_drawer_recycler_view) RexRecyclerView mNavDrawerRecyclerView;
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         initNavDrawerToogle();
         initNavDrawerSwipeRefreshLayout();
         initNavDrawerRecyclerView();
-        mNavDrawerHeaderAuthorImageView.setOnClickListener(new View.OnClickListener() {
+        mNavDrawerHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent().setClass(MainActivity.this, WebActivity.class));
