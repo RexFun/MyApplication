@@ -9,6 +9,7 @@
     android:background="@drawable/bg_item_selector">
     <ImageView
         android:id="@+id/iv_paper_image_bmp"
+        android:transitionName="iv_paper_image_bmp"
         android:layout_width="match_parent"
         android:layout_height="245dp"
         android:scaleType="fitXY"

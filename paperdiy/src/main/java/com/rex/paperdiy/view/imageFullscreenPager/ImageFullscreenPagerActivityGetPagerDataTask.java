@@ -2,7 +2,6 @@ package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
@@ -22,14 +21,12 @@ import java.util.Map;
 public class ImageFullscreenPagerActivityGetPagerDataTask extends AsyncTask<String, Integer, HttpResultObj<String>> {
     private Context ctx;
     private MainController controller;
-    private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private int currentItem;
 
-    public ImageFullscreenPagerActivityGetPagerDataTask(Context ctx, TabLayout tabLayout, ViewPager viewPager, int currentItem) {
+    public ImageFullscreenPagerActivityGetPagerDataTask(Context ctx, ViewPager viewPager, int currentItem) {
         this.ctx = ctx;
         this.controller = new MainController(this.ctx);
-        this.mTabLayout = tabLayout;
         this.mViewPager = viewPager;
         this.currentItem = currentItem;
     }
@@ -54,7 +51,6 @@ public class ImageFullscreenPagerActivityGetPagerDataTask extends AsyncTask<Stri
             }
             ((ImageFullscreenPagerActivityAdapter)mViewPager.getAdapter()).refreshItems(fragmentList);
             mViewPager.setCurrentItem(currentItem);
-            mTabLayout.setupWithViewPager(mViewPager);
         } else {
             Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
         }

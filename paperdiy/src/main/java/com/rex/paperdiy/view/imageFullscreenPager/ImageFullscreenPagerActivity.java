@@ -2,11 +2,11 @@ package com.rex.paperdiy.view.imageFullscreenPager;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class ImageFullscreenPagerActivity extends AppCompatActivity implements ImageFullscreenPagerActivityFragment.OnClickListener{
     @InjectUtil.InjectView(id = R.id.image_view_pager) ViewPager mViewPager;
-    @InjectUtil.InjectView(id = R.id.tablayout) TabLayout mTabLayout;
+    @InjectUtil.InjectView(id=R.id.toolbar) Toolbar mToolbar;
 
     private boolean mVisible;
     private static final int UI_ANIMATION_DELAY = 300;
@@ -69,6 +69,7 @@ public class ImageFullscreenPagerActivity extends AppCompatActivity implements I
         setContentView(R.layout.activity_image_fullscreen_pager);
         InjectUtil.injectView(this);
         receiveBundle();
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);//actionbar主按键可以被点击
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示左上角返回键
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -82,7 +83,7 @@ public class ImageFullscreenPagerActivity extends AppCompatActivity implements I
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home://返回
-                this.finish();
+                supportFinishAfterTransition();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -141,7 +142,7 @@ public class ImageFullscreenPagerActivity extends AppCompatActivity implements I
     }
 
     private void loadData() {
-        new ImageFullscreenPagerActivityGetPagerDataTask(this, mTabLayout, mViewPager, image_sort-1).execute(image_pid.toString());
+        new ImageFullscreenPagerActivityGetPagerDataTask(this, mViewPager, image_sort-1).execute(image_pid.toString());
     }
 
     @Override

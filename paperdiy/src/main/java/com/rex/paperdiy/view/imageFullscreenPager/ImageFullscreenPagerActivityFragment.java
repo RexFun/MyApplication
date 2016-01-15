@@ -6,17 +6,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.bm.library.PhotoView;
 import com.rex.paperdiy.R;
 import com.rex.paperdiy.view.main.MainActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
-import com.squareup.picasso.Picasso;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ImageFullscreenPagerActivityFragment extends Fragment {
-    @InjectUtil.InjectView(id=R.id.img)
-    PhotoView mImageView;
+    @InjectUtil.InjectView(id = R.id.iv_paper_image_bmp) ImageView mTvPaperImageBmp;
 
+    private PhotoViewAttacher mAttacher;
     private OnClickListener mListener;
 
     private static final String ARG_PARAM1 = "param1";
@@ -46,19 +47,17 @@ public class ImageFullscreenPagerActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_image_fullscreen_paper_fragment, container, false);
         InjectUtil.injectView(this, rootView);
-        mImageView.enable();
-        mImageView.setOnClickListener(new View.OnClickListener() {
+        MainActivity.mImageLoader.displayImage(
+                getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mParam1,
+                mTvPaperImageBmp,
+                MainActivity.mDisplayImageOptions);
+        mAttacher = new PhotoViewAttacher(mTvPaperImageBmp);
+        mAttacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onPhotoTap(View v, float x, float y) {
                 mListener.onClick(v);
             }
         });
-        MainActivity.mImageLoader.displayImage(
-                getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mParam1,
-                mImageView,
-                MainActivity.mDisplayImageOptions);
-
-//        Picasso.with(getContext()).load(getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mParam1).into(mImageView);
         return rootView;
     }
 
@@ -80,5 +79,11 @@ public class ImageFullscreenPagerActivityFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAttacher.cleanup();
     }
 }

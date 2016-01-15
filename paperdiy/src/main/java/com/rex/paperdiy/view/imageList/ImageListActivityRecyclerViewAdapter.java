@@ -2,10 +2,7 @@ package com.rex.paperdiy.view.imageList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rex.paperdiy.R;
-import com.rex.paperdiy.view.imageFullscreenDetail.ImageFullscreenDetailActivity;
 import com.rex.paperdiy.view.imageFullscreenPager.ImageFullscreenPagerActivity;
 import com.rexfun.androidlibrarytool.InjectUtil;
 import com.squareup.picasso.Picasso;
@@ -61,10 +57,6 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
             holder.tvPaperImagePid.setText(mList.get(position).get("PID"));
             holder.tvPaperImageSort.setText(mList.get(position).get("SORT"));
             holder.tvStep.setText("第 "+mList.get(position).get("SORT")+" 步");
-//            MainActivity.mImageLoader.displayImage(
-//                    ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID"),
-//                    holder.ivPaperImageBmp,
-//                    MainActivity.mDisplayImageOptions);
             Picasso.with(ctx).load(ctx.getString(R.string.app_path) + "/client/paperimage/getPaperImageById.action?id=" + mList.get(position).get("ID")).into(holder.ivPaperImageBmp);
         }
     }
@@ -90,14 +82,15 @@ public class ImageListActivityRecyclerViewAdapter extends RecyclerView.Adapter<I
                     b.putLong("image_id", Long.valueOf(tvPaperImageId.getText().toString()));
                     b.putLong("image_pid", Long.valueOf(tvPaperImagePid.getText().toString()));
                     b.putInt("image_sort", Integer.valueOf(tvPaperImageSort.getText().toString()));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Pair<View, String> p1 = Pair.create((View)ivPaperImageBmp, "iv_paper_image_bmp");
-                        Pair<View, String> p2 = Pair.create((View)tvStep, "tv_step");
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((ImageListActivity)ctx, p1, p2);
-                        ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenDetailActivity.class).putExtra("info", b), options.toBundle());
-                    } else {
-                        ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenPagerActivity.class).putExtra("info", b));
-                    }
+                    ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenPagerActivity.class).putExtra("info", b));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        Pair<View, String> p1 = Pair.create((View)ivPaperImageBmp, "iv_paper_image_bmp");
+//                        Pair<View, String> p2 = Pair.create((View)tvStep, "tv_step");
+//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((ImageListActivity)ctx, p1, p2);
+//                        ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenDetailActivity.class).putExtra("info", b), options.toBundle());
+//                    } else {
+//                        ctx.startActivity(new Intent().setClass(ImageListActivityRecyclerViewAdapter.this.ctx, ImageFullscreenPagerActivity.class).putExtra("info", b));
+//                    }
                 }
             });
         }
