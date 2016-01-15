@@ -47,13 +47,12 @@ public class MainActivityNavDrawerPullRefreshTask extends AsyncTask<String, Inte
 
     @Override
     protected void onPostExecute(HttpResultObj<String> result) {
-        Gson gson = new Gson();
-        if(!result.isSuc()) {
+        if (result.isSuc()) {
+            List<Map<String,String>> list = new Gson().fromJson(result.getData(), new TypeToken<List<Map<String, String>>>() {}.getType());
+            ((MainActivityNavDrawerRecyclerViewAdapter) mRecyclerView.getAdapter()).refreshItems(list);
+        } else {
             Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
-            return;
         }
         mSwipeLayout.setRefreshing(false);
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(), new TypeToken<List<Map<String,String>>>(){}.getType());
-        ((MainActivityNavDrawerRecyclerViewAdapter) mRecyclerView.getAdapter()).refreshItems(list);
     }
 }

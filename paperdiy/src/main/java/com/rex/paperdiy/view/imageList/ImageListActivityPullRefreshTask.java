@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rex.paperdiy.controller.MainController;
-import com.rex.paperdiy.view.imageList.ImageListActivityRecyclerViewAdapter;
 import com.rexfun.androidlibraryhttp.HttpResultObj;
 
 import java.util.List;
@@ -57,18 +56,16 @@ public class ImageListActivityPullRefreshTask extends AsyncTask<String, Integer,
 
     @Override
     protected void onPostExecute(HttpResultObj<String> result) {
-        Gson gson = new Gson();
-        if(!result.isSuc()) {
-            Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
-        mSwipeLayout.setRefreshing(false);
-        if ("down".equals(direction)) {
-//            mRecyclerView.setAdapter(new ImageListActivityRecyclerViewAdapter(ctx, list));
-            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
+        if (result.isSuc()) {
+            List<Map<String,String>> list = new Gson().fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
+            if ("down".equals(direction)) {
+                ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
+            } else {
+                ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
+            }
         } else {
-            ((ImageListActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
+            Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
         }
+        mSwipeLayout.setRefreshing(false);
     }
 }

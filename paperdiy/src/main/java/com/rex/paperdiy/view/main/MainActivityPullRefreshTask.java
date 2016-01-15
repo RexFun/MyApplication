@@ -56,17 +56,16 @@ public class MainActivityPullRefreshTask extends AsyncTask<String, Integer, Http
 
     @Override
     protected void onPostExecute(HttpResultObj<String> result) {
-        Gson gson = new Gson();
-        if(!result.isSuc()) {
-            Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
-        mSwipeLayout.setRefreshing(false);
-        if ("down".equals(direction)) {
-            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).refreshItems(list);
+        if (result.isSuc()) {
+            List<Map<String,String>> list = new Gson().fromJson(result.getData(),  new TypeToken<List<Map<String,String>>>(){}.getType());
+            if ("down".equals(direction)) {
+                ((MainActivityRecyclerViewAdapter)this.mRecyclerView.getAdapter()).refreshItems(list);
+            } else {
+                ((MainActivityRecyclerViewAdapter)this.mRecyclerView.getAdapter()).insertItems(list);
+            }
         } else {
-            ((MainActivityRecyclerViewAdapter)mRecyclerView.getAdapter()).insertItems(list);
+            Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
         }
+        mSwipeLayout.setRefreshing(false);
     }
 }

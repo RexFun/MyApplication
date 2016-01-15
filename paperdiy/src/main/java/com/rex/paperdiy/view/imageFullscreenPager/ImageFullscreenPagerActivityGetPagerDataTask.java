@@ -46,18 +46,17 @@ public class ImageFullscreenPagerActivityGetPagerDataTask extends AsyncTask<Stri
 
     @Override
     protected void onPostExecute(HttpResultObj<String> result) {
-        Gson gson = new Gson();
-        if(!result.isSuc()) {
+        if (result.isSuc()) {
+            List<Map<String,String>> list = new Gson().fromJson(result.getData(), new TypeToken<List<Map<String,String>>>(){}.getType());
+            List<Fragment> fragmentList = new ArrayList<Fragment>();
+            for(Map<String,String> m : list) {
+                fragmentList.add(ImageFullscreenPagerActivityFragment.newInstance(m.get("ID")));
+            }
+            ((ImageFullscreenPagerActivityAdapter)mViewPager.getAdapter()).refreshItems(fragmentList);
+            mViewPager.setCurrentItem(currentItem);
+            mTabLayout.setupWithViewPager(mViewPager);
+        } else {
             Toast.makeText(ctx, result.getErrMsg(), Toast.LENGTH_SHORT).show();
-            return;
         }
-        List<Map<String,String>> list = (List<Map<String,String>>)gson.fromJson(result.getData(), new TypeToken<List<Map<String,String>>>(){}.getType());
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
-        for(Map<String,String> m : list) {
-            fragmentList.add(ImageFullscreenPagerActivityFragment.newInstance(m.get("ID")));
-        }
-        ((ImageFullscreenPagerActivityAdapter)mViewPager.getAdapter()).refreshItems(fragmentList);
-        mViewPager.setCurrentItem(currentItem);
-        mTabLayout.setupWithViewPager(mViewPager);
     }
 }
