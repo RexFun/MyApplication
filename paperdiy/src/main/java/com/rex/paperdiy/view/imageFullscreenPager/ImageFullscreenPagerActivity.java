@@ -92,7 +92,7 @@ public class ImageFullscreenPagerActivity extends AppCompatActivity implements I
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        delayedHide(100);
+//        delayedHide(100);
     }
 
     private void toggle() {
