@@ -14,7 +14,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:background="@drawable/header">
+        android:background="@drawable/header_blue">
         <ImageView
             android:id="@+id/nav_drawer_header_author_image_view"
             android:layout_width="80dp"
